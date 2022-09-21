@@ -1,4 +1,6 @@
-import enums.NumeroRomano;
+package esercizi;
+
+import teoria.enums.NumeroRomano;
 
 public class NumeroRomanoTest {
 

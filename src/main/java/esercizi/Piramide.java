@@ -1,3 +1,5 @@
+package esercizi;
+
 public class Piramide {
 
     public static String repeat(String s, int x) {

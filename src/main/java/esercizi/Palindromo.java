@@ -1,3 +1,5 @@
+package esercizi;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -55,7 +57,7 @@ public class Palindromo {
         }
         int lunghezzaParola = parola.length();
         String parolaInversa = "";
-        for (int i = lunghezzaParola -1; i >=0; i--) {
+        for (int i = lunghezzaParola - 1; i >= 0; i--) {
             parolaInversa += String.valueOf(parola.charAt(i));
         }
         return parolaInversa.equalsIgnoreCase(parola);
@@ -93,7 +95,7 @@ public class Palindromo {
         return false;
     }
 
-    public static void main (String[] args) {
+    public static void main(String[] args) {
 
         List<String> palindromi = getParolePalindrome(WORDS);
         System.out.println(palindromi);

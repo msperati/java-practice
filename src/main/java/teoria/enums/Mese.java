@@ -1,4 +1,4 @@
-package enums;
+package teoria.enums;
 
 import lombok.Getter;
 

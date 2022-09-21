@@ -1,4 +1,4 @@
-package enums;
+package teoria.enums;
 
 public enum NumeroRomano {
     M(1000),
