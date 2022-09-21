@@ -4,6 +4,9 @@ import lombok.Getter;
 
 @Getter
 // gli enum sono SEMPRE implicitamente public (non avrebbe senso fare un enum private)
+// tuttavia sono "visibili" solo all'interno del package d'origine (in questo caso enums).
+// Se spostate TestEnum dalla cartella enums a java, segnalerà errore, dicendovi di rendere
+// Mese public
 enum Mese {
     // gli elementi dell'enum per convenzione si scrivono maiuscoli (sono costanti dopotutto) separati da virgole.
     GENNAIO(1),

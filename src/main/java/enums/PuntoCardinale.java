@@ -1,6 +1,6 @@
 package enums;
 
-public enum PuntoCardinale {
+enum PuntoCardinale {
     NORD,
     SUD,
     OVEST,
