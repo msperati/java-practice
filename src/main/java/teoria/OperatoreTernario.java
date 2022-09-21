@@ -1,3 +1,5 @@
+package teoria;
+
 public class OperatoreTernario {
 
     public static void main(String[] args) {

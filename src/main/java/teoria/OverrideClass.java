@@ -1,7 +1,21 @@
+package teoria;
+
 import java.util.Arrays;
 import java.util.List;
 
 public class OverrideClass {
+
+    public static void main(String[] args) {
+
+        ImplementazioneA a = new ImplementazioneA();
+        ImplementazioneB b = new ImplementazioneB();
+        ImplementazioneC c = new ImplementazioneC();
+
+        List<Interfaccia> implementazioni = Arrays.asList(new Interfaccia[]{a, b, c});
+        for (Interfaccia i : implementazioni) {
+            i.print();
+        }
+    }
 
     private interface Interfaccia {
         void print();
@@ -28,18 +42,6 @@ public class OverrideClass {
         @Override
         public void print() {
             System.out.println("Implementazione C");
-        }
-    }
-
-    public static void main (String[] args) {
-
-        ImplementazioneA a = new ImplementazioneA();
-        ImplementazioneB b = new ImplementazioneB();
-        ImplementazioneC c = new ImplementazioneC();
-
-        List<Interfaccia> implementazioni = Arrays.asList(new Interfaccia[]{a, b, c});
-        for (Interfaccia i : implementazioni) {
-            i.print();
         }
     }
 }

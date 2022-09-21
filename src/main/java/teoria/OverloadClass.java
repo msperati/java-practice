@@ -1,20 +1,6 @@
+package teoria;
+
 public class OverloadClass {
-
-    private static class Superclasse {
-
-        @Override
-        public String toString() {
-            return "SuperclasseObject";
-        }
-    }
-
-    private static class Sottoclasse extends Superclasse {
-
-        @Override
-        public String toString() {
-            return "SottoclasseObject";
-        }
-    }
 
     public static void print(Object o) {
         System.out.println("OBJECT " + o);
@@ -65,5 +51,21 @@ public class OverloadClass {
         print(superclasse);
         print(sottoclasse);
         print(castata);
+    }
+
+    private static class Superclasse {
+
+        @Override
+        public String toString() {
+            return "SuperclasseObject";
+        }
+    }
+
+    private static class Sottoclasse extends Superclasse {
+
+        @Override
+        public String toString() {
+            return "SottoclasseObject";
+        }
     }
 }
