@@ -24,7 +24,7 @@ public abstract class AbstractClass {
     }
 
     public void print() {
-        System.out.println("teoria.AbstractClass");
+        System.out.println("AbstractClass");
     }
 
     private static class ClasseConcretaA extends AbstractClass {

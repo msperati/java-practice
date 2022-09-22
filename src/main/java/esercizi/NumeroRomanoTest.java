@@ -16,37 +16,42 @@ public class NumeroRomanoTest {
         // inizializzo il contatore a 0
         int count = 0;
 
-        // splitto la stringa in un array di Stringhe (le singole lettere)
-        String[] lettereSingole = numeroRomano.split("");
+        try {
+            // splitto la stringa in un array di Stringhe (le singole lettere)
+            String[] lettereSingole = numeroRomano.split("");
 
-        // per ogni lettera dell'array
-        for (int i = 0; i < lettereSingole.length; i++) {
+            // per ogni lettera dell'array
+            for (int i = 0; i < lettereSingole.length; i++) {
 
-            // lettera sarà la lettera corrispondente all'indice i attuale
-            String lettera = lettereSingole[i];
+                // lettera sarà la lettera corrispondente all'indice i attuale
+                String lettera = lettereSingole[i];
 
-            // letteraSuccessiva sarà quella corrispondente a indice i+1
-            // o (qualora lettera sia l'ultimo elemento dell'array) sarà null
-            String letteraSuccessiva = i == lettereSingole.length - 1 ?
-                    null : lettereSingole[i + 1];
+                // letteraSuccessiva sarà quella corrispondente a indice i+1
+                // o (qualora lettera sia l'ultimo elemento dell'array) sarà null
+                String letteraSuccessiva = i == lettereSingole.length - 1 ?
+                        null : lettereSingole[i + 1];
 
-            // ricavo il valore numerico di lettera e letteraSuccessiva (se questa è null il valore sarà 0)
-            int valoreLettera = NumeroRomano.valueOf(lettera).getValore();
-            int valoreLetteraSuccessiva = letteraSuccessiva != null ?
-                    NumeroRomano.valueOf(letteraSuccessiva).getValore() : 0;
+                // ricavo il valore numerico di lettera e letteraSuccessiva (se questa è null il valore sarà 0)
+                int valoreLettera = NumeroRomano.valueOf(lettera).getValore();
+                int valoreLetteraSuccessiva = letteraSuccessiva != null ?
+                        NumeroRomano.valueOf(letteraSuccessiva).getValore() : 0;
 
-            // se il valore numerico di lettera è minore di quello di letteraSuccessiva (ES: IX, XL, CD)
-            if (valoreLettera < valoreLetteraSuccessiva) {
+                // se il valore numerico di lettera è minore di quello di letteraSuccessiva (ES: IX, XL, CD)
+                if (valoreLettera < valoreLetteraSuccessiva) {
 
-                // se è minore, devo sottrarre al valore di letteraSuccessiva il valore di lettera
-                // e aumentare il valore dell'indice i di 1, in quanto ho preso in esame 2 lettere
-                count += valoreLetteraSuccessiva - valoreLettera;
-                i++;
-            } else {
+                    // se è minore, devo sottrarre al valore di letteraSuccessiva il valore di lettera
+                    // e aumentare il valore dell'indice i di 1, in quanto ho preso in esame 2 lettere
+                    count += valoreLetteraSuccessiva - valoreLettera;
+                    i++;
+                } else {
 
-                // se è maggiore, procedo normalmente a sommare il valore di lettera al conteggio finale
-                count += valoreLettera;
+                    // se è maggiore, procedo normalmente a sommare il valore di lettera al conteggio finale
+                    count += valoreLettera;
+                }
             }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(numeroRomano);
         }
         // restituisco la somma dei valori ottenuti
         return count;
@@ -60,7 +65,6 @@ public class NumeroRomanoTest {
             NumeroRomano pizzaStatusEnum = NumeroRomano.valueOf(elem);
             sommaVal += pizzaStatusEnum.getValore();
         }
-
         return sommaVal;
     }
 
@@ -98,5 +102,9 @@ public class NumeroRomanoTest {
         System.out.println("MCM = " + convertiNumeroRomanoAdvanced("MCM"));
         System.out.println("XL = " + convertiNumeroRomanoAdvanced("XL"));
         System.out.println("IV = " + convertiNumeroRomanoAdvanced("IV"));
+
+        System.out.println("ABC = " + convertiNumeroRomanoAdvanced("ABC"));
+        System.out.println("Stringa vuota = " + convertiNumeroRomanoAdvanced(""));
+        System.out.println("Stringa null = " + convertiNumeroRomanoAdvanced(null));
     }
 }
