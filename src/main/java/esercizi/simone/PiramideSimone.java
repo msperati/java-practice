@@ -70,10 +70,15 @@ public class PiramideSimone {
 
     public static void main(String[] args) {
 
-        printPiramide(10, '#', ' ');
+        printPiramide(3, ' ', ' ');
 
-        printPiramide(3);
+        printPiramide(3, '#', '_');
 
-        printPiramide(10);
+        printPiramide(3, 'A', '-');
+
+        //printPiramide(3);
+
+        //printPiramide(10);
+
     }
 }

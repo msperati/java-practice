@@ -13,7 +13,6 @@ public class PiramideSho {
     }
 
 
-
     public static void printPiramide(int x) {
         int lunghezzaBase = (x * 2) - 1;
         int meta = (lunghezzaBase / 2) + 1;
@@ -41,6 +40,7 @@ public class PiramideSho {
                             spazi);
         }
     }
+
     public static void printPiramide(int x, char s1, char s2) {
         int lunghezzaBase = (x * 2) - 1;
         int meta = (lunghezzaBase / 2) + 1;
@@ -49,14 +49,14 @@ public class PiramideSho {
 
             String carattereCentrale = (i % 2 == 0 ? String.valueOf(s2) : String.valueOf(s1));
 
-            String asterischiIniziali = repeat(String.valueOf(s1) + String.valueOf(s2) , (i / 2));
+            String asterischiIniziali = repeat(String.valueOf(s1) + String.valueOf(s2), (i / 2));
 
             asterischiIniziali = asterischiIniziali.endsWith(carattereCentrale) ? asterischiIniziali.substring(0, asterischiIniziali.length() - 1) : asterischiIniziali;
 
             String spazi = repeat(String.valueOf(s2), meta - (asterischiIniziali.length() + 1));
 
 
-            String asterischiFinali = repeat(String.valueOf(s2)+ String.valueOf(s1), (i / 2));
+            String asterischiFinali = repeat(String.valueOf(s2) + String.valueOf(s1), (i / 2));
 
             asterischiFinali = asterischiFinali.startsWith(carattereCentrale) ? asterischiFinali.substring(1) : asterischiFinali;
 
@@ -77,7 +77,9 @@ public class PiramideSho {
         //printPiramide(3);
 
         //printPiramide(10);
-        printPiramide(10, '#',' ');
+        printPiramide(3, '#', ' ');
+        printPiramide(3, '*', '-');
+        printPiramide(3, 'A', '_');
 
     }
 }
