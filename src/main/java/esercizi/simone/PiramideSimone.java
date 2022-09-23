@@ -47,15 +47,15 @@ public class PiramideSimone {
         System.out.println("PIRAMIDE DI " + x);
         for (int i = 1; i <= x; i++) {
 
-            String carattereCentrale = (i % 2 == 0 ? " " : "#");
+            String carattereCentrale = (i % 2 == 0 ? String.valueOf(s) : String.valueOf(c));
 
-            String asterischiIniziali = repeat("# ", (i / 2));
+            String asterischiIniziali = repeat(String.valueOf(c) + String.valueOf(s), (i / 2));
 
             asterischiIniziali = asterischiIniziali.endsWith(carattereCentrale) ? asterischiIniziali.substring(0, asterischiIniziali.length() - 1) : asterischiIniziali;
 
-            String spazi = repeat(" ", meta - (asterischiIniziali.length() + 1));
+            String spazi = repeat(String.valueOf(s), meta - (asterischiIniziali.length() + 1));
 
-            String asterischiFinali = repeat(" #", (i / 2));
+            String asterischiFinali = repeat(String.valueOf(s) + String.valueOf(c), (i / 2));
             asterischiFinali = asterischiFinali.startsWith(carattereCentrale) ? asterischiFinali.substring(1) : asterischiFinali;
 
             System.out.println(
@@ -70,7 +70,7 @@ public class PiramideSimone {
 
     public static void main(String[] args) {
 
-        printPiramide(10, ' ', ' ');
+        printPiramide(10, '#', ' ');
 
         printPiramide(3);
 
