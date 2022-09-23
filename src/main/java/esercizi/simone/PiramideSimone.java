@@ -75,6 +75,5 @@ public class PiramideSimone {
         printPiramide(3);
 
         printPiramide(10);
-
     }
 }
