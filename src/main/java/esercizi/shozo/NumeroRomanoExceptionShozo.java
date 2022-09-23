@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static esercizi.NumeroRomanoTest.convertiNumeroRomanoAdvanced;
+import static esercizi.NumeroRomanoTest.convertinNrRomanoAdvanced;
 
 @Getter
 public class NumeroRomanoExceptionShozo extends RuntimeException {
@@ -31,8 +32,8 @@ public class NumeroRomanoExceptionShozo extends RuntimeException {
 
     public static void main(String[] args) {
         try {
-            System.out.println("ABC = " + convertiNumeroRomanoAdvanced("ABC"));
-        } catch (RuntimeException e) {
+            System.out.println("ABC = " + convertinNrRomanoAdvanced("ABC"));
+        } catch (Exception e) {
             NumeroRomanoExceptionShozo shozoEcc = new NumeroRomanoExceptionShozo(e.getMessage());
             System.out.println(shozoEcc.getMessage());
         }
