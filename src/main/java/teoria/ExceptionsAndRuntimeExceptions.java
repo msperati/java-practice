@@ -5,7 +5,7 @@ import lombok.Getter;
 public class ExceptionsAndRuntimeExceptions {
 
     public static void throwException() throws Exception {
-        System.out.println("Questo metodo ha il solo scopo di lanciare un eccezione");
+        System.out.println("Questo metodo ha il solo scopo di lanciare un'eccezione");
         System.out.println("Pertanto la sua firma deve dichiarare che lancia un'eccezione");
         throw new Exception("ECCEZIONE DEL METODO throwException");
     }
@@ -17,7 +17,15 @@ public class ExceptionsAndRuntimeExceptions {
     }
 
     public static int dividiPerZero(int x) {
-        return x / 0;
+        try {
+            return x / 0;
+        } catch (Exception e) {
+            System.out.println("Questa è l'eccezione originale che otteniamo quando dividiamo per 0");
+            System.out.println(e.getClass() + " MESSAGGIO: " + e.getMessage());
+            System.out.println("Potremmo concludere qua e gestire l'eccezione con un print del messaggio.");
+            System.out.println("Invece decidiamo di testare la nostra eccezione customizzata, ovvero:");
+            throw new DivisionePerZeroException();
+        }
     }
 
     public static void main(String[] args) {
@@ -40,16 +48,8 @@ public class ExceptionsAndRuntimeExceptions {
             System.out.println(r.getMessage());
             System.out.println("*********************************************************");
         }
-
-        try {
-            dividiPerZero(5);
-        } catch (Exception e) {
-            System.out.println("Questa è l'eccezione originale che otteniamo quando dividiamo per 0");
-            System.out.println(e.getClass() + " MESSAGGIO: " + e.getMessage());
-            System.out.println("Potremmo concludere qua e gestire l'eccezione con un print del messaggio.");
-            System.out.println("Invece decidiamo di testare la nostra eccezione customizzata, ovvero:");
-            throw new DivisionePerZeroException();
-        }
+        
+        dividiPerZero(5);
     }
 
     @Getter

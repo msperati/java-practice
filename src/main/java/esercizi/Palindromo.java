@@ -33,7 +33,7 @@ public class Palindromo {
     // -se uno di questi confronti restituisce false, tutto il metodo restituisco subito false
     // (non ha senso continuare a scorrere tutta una stringa potenzialmente lunghissima se ho già trovato una discrepanza)
     // -diversamente, se arriva a metà parola indenne, vuol dire che è palindroma e restituisco true
-    private static boolean isPalindromo1(String parola) {
+    public static boolean isPalindromo1(String parola) {
         if (parola == null || parola.isEmpty()) {
             return false;
         }
@@ -51,7 +51,7 @@ public class Palindromo {
     // -creo una nuova variabile di tipo String denominata parolaInversa
     // -inizio a scorrere la parola in input dalla fine all'inizio, aggiungendo di volta in volta i caratteri a parolaInversa
     // -se parolaInversa è uguale a parola (senza tener conto di maiuscole o minuscole), allora è palindroma
-    private static boolean isPalindromo2(String parola) {
+    public static boolean isPalindromo2(String parola) {
         if (parola == null || parola.isEmpty()) {
             return false;
         }
@@ -67,7 +67,7 @@ public class Palindromo {
     // identico al metodo di sopra, ma più elegantemente abbiamo ottenuto la stringa parolaInversa
     // tramite il metodo reverse() dell'oggetto StringBuilder(parola)
     // (a sua volta riconvertita poi in stringa con toString()
-    private static boolean isPalindromo3(String parola) {
+    public static boolean isPalindromo3(String parola) {
         if (parola == null || parola.isEmpty()) {
             return false;
         }
@@ -85,7 +85,7 @@ public class Palindromo {
     // - se a furia di rimpicciolire la stringa otteniamo una stringa di due caratteri (parola originaria di lunghezza pari)
     // o una stringa di un solo carattere (parola originaria di lunghezza dispari)
     // interrompiamo la ricorsione e determiniamo che la parola originaria è palindroma
-    private static boolean isPalindromoRicorsivo(String parola) {
+    public static boolean isPalindromoRicorsivo(String parola) {
         if (parola == null || parola.isEmpty()) {
             return false;
         }
