@@ -4,15 +4,19 @@ import lombok.Getter;
 
 public class ExceptionsAndRuntimeExceptions {
 
+    /**
+     * Questo metodo ha il solo scopo di lanciare un'eccezione.
+     * Pertanto la sua firma deve dichiarare che lancia un'eccezione.
+     */
     public static void throwException() throws Exception {
-        System.out.println("Questo metodo ha il solo scopo di lanciare un'eccezione");
-        System.out.println("Pertanto la sua firma deve dichiarare che lancia un'eccezione");
         throw new Exception("ECCEZIONE DEL METODO throwException");
     }
 
+    /**
+     * Questo metodo ha il solo scopo di lanciare una RuntimeException.
+     * Essendo una RuntimeException la firma del metodo non deve dichiarare che la lancia
+     */
     public static void throwRuntimeException() {
-        System.out.println("Questo metodo ha il solo scopo di lanciare una RuntimeException.");
-        System.out.println("Essendo una RuntimeException la firma del metodo non deve dichiarare che la lancia");
         throw new RuntimeException("ECCEZIONE DEL METODO throwRuntimeException");
     }
 
@@ -48,7 +52,7 @@ public class ExceptionsAndRuntimeExceptions {
             System.out.println(r.getMessage());
             System.out.println("*********************************************************");
         }
-        
+
         dividiPerZero(5);
     }
 

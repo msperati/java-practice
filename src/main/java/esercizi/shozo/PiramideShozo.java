@@ -1,6 +1,6 @@
 package esercizi.shozo;
 
-public class PiramideSho {
+public class PiramideShozo {
 
     public static String repeat(String s, int x) {
         String newString = "";

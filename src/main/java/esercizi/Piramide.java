@@ -66,6 +66,8 @@ public class Piramide {
 
     public static void main(String[] args) {
 
+        printPiramide(3);
+
         printPiramide(3, '*', '-');
 
         printPiramide(3, '#', ' ');
