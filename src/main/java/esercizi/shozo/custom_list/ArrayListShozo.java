@@ -5,7 +5,7 @@ import teoria.custom_list.CustomArrayList;
 import teoria.custom_list.CustomList;
 
 @Getter
-public class ArrayListShozo implements CustomList {
+public class ArrayListShozo implements ListShozo {
 
     private Object[] array;
     private int size;
@@ -15,12 +15,92 @@ public class ArrayListShozo implements CustomList {
         this.size = 0;
     }
 
+
     public static void main(String[] args) {
         CustomArrayList list = new CustomArrayList();
         System.out.println(list);
-        list.add("cane");
-        list.add("gatto");
-        System.out.println(list);
+//        list.add("cane");
+//        list.add("gatto");
+//        System.out.println(list);
+
+        ArrayListShozo list2 = new ArrayListShozo();
+        list2.add("1");
+        list2.add("2");
+        list2.add("3");
+        //System.out.println(list2);
+        ArrayListShozo obj=  new ArrayListShozo();
+        Boolean ris= obj.addAll(list2);
+
+    }
+
+    public boolean isEmpty() {
+
+        return this.array.length == 0;
+    }
+
+    public void clear(){
+        this.array = new Object[0];
+        this.size = 0;
+    }
+
+    public boolean contains(Object obj){
+        Boolean ris=false;
+            for (int i = 0; i < array.length; i++) {
+                Object elementoScansionato = array[i];
+                // se l'elemento scansionato corrisponde all'oggetto in input
+                if (elementoScansionato == obj || elementoScansionato.equals(obj)) {
+                    ris= true;
+                }
+                else{
+                    ris= false;
+                }
+            }
+     return ris;
+    }
+
+
+
+    public boolean addAll(ListShozo list){
+        Object [] arrOk= new Object[this.size + list.size()];
+
+        for(int i=0; i < array.length;i++)
+        {
+            arrOk[i]=array[i];
+        }
+
+        Boolean aggiunto=false;
+        for(int i=0; i < list.size();i++)
+        {
+            arrOk[array.length+i]=list.get(i);  //????????????
+            aggiunto=true;
+        }
+
+        size=arrOk.length;
+
+        array=arrOk;
+        return aggiunto;
+    }
+
+    public Object remove(int x){
+
+        if (x < 0 || x > size - 1) {
+            throw new IndexOutOfBoundsException(
+                    "Indice " + x + " non valido. Dimensione lista: " + size);
+        }
+
+        Object elementEliminato=null;
+        Object [] arrOk= new Object[ array.length-1];
+        for (int i = 0; i < array.length; i++) {
+            // se l'elemento scansionato corrisponde all'oggetto in input
+           if(i!=x){
+               arrOk[i]=array[i];
+           }
+           else {
+               elementEliminato=array[i];
+           }
+        }
+        size-=1;
+        return elementEliminato;
     }
 
     public Object get(int i) {

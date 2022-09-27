@@ -2,6 +2,11 @@ package esercizi.shozo.custom_list;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.val;
+import teoria.custom_list.CustomArrayList;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class LinkedListShozo implements ListShozo {
 
@@ -16,19 +21,101 @@ public class LinkedListShozo implements ListShozo {
     }
 
     public static void main(String[] args) {
-        ListShozo linked = new LinkedListShozo();
-        System.out.println("" + linked + " SIZE " + linked.size());
-        linked.add("cane");
-        System.out.println("" + linked + " SIZE " + linked.size());
-        linked.add("gatto");
-        System.out.println("" + linked + " SIZE " + linked.size());
-        linked.add("cane");
-        System.out.println("" + linked + " SIZE " + linked.size());
-        System.out.println(linked.get(1));
-        linked.remove("gatto");
-        System.out.println("" + linked + " SIZE " + linked.size());
-        System.out.println(linked.get(1));
+          ListShozo linked = new LinkedListShozo();
+          //System.out.println("" + linked + " SIZE " + linked.size());
+          //linked.add("cane");
+          //System.out.println("" + linked + " SIZE " + linked.size());
+          //linked.add("gatto");
+          //System.out.println("" + linked + " SIZE " + linked.size());
+//        linked.add("cane");
+//        System.out.println("" + linked + " SIZE " + linked.size());
+//        System.out.println(linked.get(1));
+//        linked.remove("gatto");
+//        System.out.println("" + linked + " SIZE " + linked.size());
+//        System.out.println(linked.get(1));
+
+//        ListShozo linked2 = new LinkedListShozo();
+//        ListShozo linkedEmpty = new LinkedListShozo();
+//
+//        linked2.add("cane");
+//        linked2.add("gatto");
+//        linked2.add("topo");
+//        linkedEmpty.addAll(linked2);
+//        System.out.println("" + linkedEmpty + " SIZE " + linkedEmpty.size());
     }
+
+
+    public boolean isEmpty() {
+
+        return this.size==0;
+    }
+
+    public void clear(){
+        this.primo=null;
+        this.ultimo=null;
+        this.size = 0;
+    }
+    public boolean contains(Object obj){
+
+        int count = 0;
+        Nodo esaminato = primo;
+        while (count < size ) {
+            if (obj == esaminato.getValore() || obj.equals(esaminato.getValore())) {
+                return true;
+            }
+
+            esaminato = esaminato.successivo;
+            count++;
+        }
+
+        return false;
+    }
+
+
+    public boolean addAll(ListShozo list){
+        int sizeOld=size;
+        for(int i=0; i <list.size();i++)
+        {
+            add(list.get(i));
+        }
+
+        size+=list.size();
+
+
+
+       return sizeOld!=size;
+    }
+
+
+    public Object remove(int x){
+
+        if (x < 0 || x > size-1) {
+            throw new IndexOutOfBoundsException(
+                    "Indice " + x + " non valido. Dimensione lista: " + size);
+        }
+
+        Nodo elementEliminato=null;
+        int count = 0;
+        Nodo esaminato = primo;
+        while (count < size ) {
+
+            if (count == x) {
+                elementEliminato=esaminato;
+                esaminato.precedente.setSuccessivo(esaminato.getSuccessivo());
+                esaminato.successivo.setPrecedente(esaminato.getPrecedente());
+            }
+            esaminato = esaminato.successivo;
+
+            count++;
+        }
+        primo = x==0?elementEliminato.successivo:primo;
+        ultimo=x==size-1 ? elementEliminato.precedente:ultimo;
+
+        size-=1;
+        return elementEliminato;
+    }
+
+
 
     @Override
     public Object get(int i) {
@@ -150,13 +237,15 @@ public class LinkedListShozo implements ListShozo {
         int count = 0;
         Nodo nodo = primo;
         while (count < size) {
-            result += count == size - 1 ? nodo.getValore() : nodo.getValore() + ",";
+            result += count == size - 1 ? nodo : nodo + ",";
             nodo = nodo.successivo;
             count++;
         }
         result += "]";
         return result;
     }
+
+
 
     @Getter
     @Setter
@@ -186,9 +275,17 @@ public class LinkedListShozo implements ListShozo {
             return false;
         }
 
+//        @Override
+//        public String toString() {
+//            return "{Nodo: " + valore + "}";
+//        }
+
         @Override
         public String toString() {
-            return "{Nodo: " + valore + "}";
+            String prec = precedente != null ? precedente.getValore().toString().toLowerCase() : null;
+            String succ = successivo != null ? successivo.getValore().toString().toLowerCase() : null;
+            String val = valore != null ? valore.toString().toUpperCase() : null;
+            return "{" + prec + "," + val + "," + succ + "}-->";
         }
     }
 }
