@@ -8,6 +8,8 @@ import teoria.custom_list.CustomArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import java.util.Objects;
+
 public class LinkedListShozo implements ListShozo {
 
     private int size;
@@ -217,7 +219,7 @@ public class LinkedListShozo implements ListShozo {
                 Nodo ultimo = casted.ultimo;
                 Nodo thisUltimo = this.ultimo;
                 while (count < this.size) {
-                    if (!ultimo.equals(thisUltimo)) {
+                    if (!Objects.equals(ultimo, thisUltimo)) {
                         return false;
                     }
                     ultimo = ultimo.precedente;

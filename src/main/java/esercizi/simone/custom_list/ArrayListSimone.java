@@ -2,6 +2,8 @@ package esercizi.simone.custom_list;
 
 import lombok.Getter;
 
+import java.util.Objects;
+
 @Getter
 public class ArrayListSimone implements ListSimone {
 
@@ -89,7 +91,7 @@ public class ArrayListSimone implements ListSimone {
             ArrayListSimone casted = (ArrayListSimone) obj;
             if (casted.size == this.size) {
                 for (int i = 0; i < this.size; i++) {
-                    if (!casted.array[i].equals(this.array[i])) {
+                    if (!Objects.equals(casted.array[i], this.array[i])) {
                         return false;
                     }
                     if (i == size - 1) {

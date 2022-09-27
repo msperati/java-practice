@@ -2,6 +2,8 @@ package teoria.custom_list;
 
 import lombok.Getter;
 
+import java.util.Objects;
+
 @Getter
 public class CustomArrayList implements CustomList {
 
@@ -15,7 +17,7 @@ public class CustomArrayList implements CustomList {
 
 
     public static void main(String[] args) {
-        CustomArrayList list = new CustomArrayList();
+        CustomList list = new CustomArrayList();
         System.out.println(list);
         list.add("cane");
         System.out.println(list);
@@ -23,22 +25,19 @@ public class CustomArrayList implements CustomList {
         System.out.println(list);
         list.add("topo");
         System.out.println(list);
-//        System.out.println(list.get(1));
-//        //System.out.println(list.get(4));
-//        System.out.println(list.array[0].precedente);
-//        System.out.println(list.array[1].precedente);
-//        List<Object> test = new ArrayList<>(Arrays.asList(new Object[]{null}));
-//        System.out.println("LISTA NORMALE: " + test);
-//        System.out.println(test.remove(null));
-//        System.out.println("LISTA NORMALE: " + test);
-        list.remove("topo");
-        System.out.println(list);
-        list.remove("cane");
-        System.out.println(list);
-        list.remove("gatto");
-        System.out.println(list);
-        list.remove(null);
-        System.out.println(list);
+
+        CustomList list2 = new CustomArrayList();
+        System.out.println("LIST 2 = " + list + " SIZE: " + list2.size());
+        list2.addAll(list);
+        System.out.println("LIST 2 = " + list + " SIZE: " + list2.size());
+//        list.remove("topo");
+//        System.out.println(list);
+//        list.remove("cane");
+//        System.out.println(list);
+//        list.remove("gatto");
+//        System.out.println(list);
+//        list.remove(null);
+//        System.out.println(list);
 //        CustomList list2 = new CustomList();
 //        list2.add("cane");
 //        list2.add("gatto");
@@ -50,12 +49,12 @@ public class CustomArrayList implements CustomList {
 //        list2.remove("topo");
     }
 
-    public Object get(int i) {
-        if (i >= 0 && i < size - 1) {
-            return array[i];
+    public Object get(int x) {
+        if (x < 0 || x >= size) {
+            throw new IndexOutOfBoundsException(
+                    "Indice " + x + " non valido. Dimensione lista: " + size);
         }
-        throw new IndexOutOfBoundsException(
-                "Indice " + i + " non valido. Dimensione lista: " + size);
+        return array[x];
     }
 
     public boolean add(Object obj) {
@@ -77,16 +76,6 @@ public class CustomArrayList implements CustomList {
                 Object elementoScansionato = array[i];
                 // se l'elemento scansionato corrisponde all'oggetto in input
                 if (elementoScansionato == obj || elementoScansionato.equals(obj)) {
-                    /** se non è l'ultimo elemento, bisogna congiungere i nodi
-                     * che stavano prima e dopo quello rimosso
-                     * ES: se la lista è [a,b,c] e togliamo b
-                     * dobbiamo settare a come precedente di c
-                     */
-
-                    /**if (!(i == size - 1)) {
-                     Nodo successivoAlRimosso = array[i + 1];
-                     successivoAlRimosso.precedente = i == 0 ? null : array[i - 1];
-                     }*/
                     rimosso = true;
                 }
                 // se l'oggetto scansionato non è quello che vogliamo rimuovere, lo rimettiamo nell'array
@@ -99,9 +88,6 @@ public class CustomArrayList implements CustomList {
                 }
             }
             array = newArray;
-            /**
-             * ultimo = size == 1 ? null : array[array.length - 1];
-             */
             size -= rimosso ? 1 : 0;
         }
         return rimosso;
@@ -112,12 +98,70 @@ public class CustomArrayList implements CustomList {
     }
 
     @Override
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    @Override
+    public void clear() {
+        size = 0;
+        array = new Object[0];
+    }
+
+    @Override
+    public boolean contains(Object obj) {
+        for (int i = 0; i < size; i++) {
+            if (obj == array[i] || obj.equals(array[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean addAll(CustomList list) {
+        if (list.size() == 0) {
+            return false;
+        }
+        Object[] newArray = new Object[size + list.size()];
+        for (int i = 0; i < size; i++) {
+            newArray[i] = array[i];
+        }
+        for (int i = 0; i < list.size(); i++) {
+            newArray[size + i] = list.get(i);
+        }
+        array = newArray;
+        size += list.size();
+        return true;
+    }
+
+    @Override
+    public Object remove(int x) {
+        if (x < 0 || x >= size) {
+            throw new IndexOutOfBoundsException(
+                    "Indice " + x + " non valido. Dimensione lista: " + size);
+        }
+        Object[] newArray = new Object[size - 1];
+        boolean rimosso = false;
+        Object result = null;
+        for (int i = 0; i < size - 1; i++) {
+            if (i != x) {
+                newArray[i] = rimosso ? array[i + 1] : array[i];
+            } else {
+                result = array[i];
+                rimosso = true;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (obj instanceof CustomArrayList && obj != null) {
             CustomArrayList casted = (CustomArrayList) obj;
             if (casted.size == this.size) {
                 for (int i = 0; i < this.size; i++) {
-                    if (!casted.array[i].equals(this.array[i])) {
+                    if (!Objects.equals(casted.array[i], this.array[i])) {
                         return false;
                     }
                     if (i == size - 1) {

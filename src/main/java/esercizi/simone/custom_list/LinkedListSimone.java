@@ -3,6 +3,8 @@ package esercizi.simone.custom_list;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 public class LinkedListSimone implements ListSimone {
 
     private int size;
@@ -130,7 +132,7 @@ public class LinkedListSimone implements ListSimone {
                 Nodo ultimo = casted.ultimo;
                 Nodo thisUltimo = this.ultimo;
                 while (count < this.size) {
-                    if (!ultimo.equals(thisUltimo)) {
+                    if (!Objects.equals(ultimo, thisUltimo)) {
                         return false;
                     }
                     ultimo = ultimo.precedente;

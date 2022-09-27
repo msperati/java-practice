@@ -2,7 +2,8 @@ package esercizi.shozo.custom_list;
 
 import lombok.Getter;
 import teoria.custom_list.CustomArrayList;
-import teoria.custom_list.CustomList;
+
+import java.util.Objects;
 
 @Getter
 public class ArrayListShozo implements ListShozo {
@@ -104,11 +105,11 @@ public class ArrayListShozo implements ListShozo {
     }
 
     public Object get(int i) {
-        if (i >= 0 && i < size - 1) {
-            return array[i];
+        if (i < 0 || i >= size) {
+            throw new IndexOutOfBoundsException(
+                    "Indice " + i + " non valido. Dimensione lista: " + size);
         }
-        throw new IndexOutOfBoundsException(
-                "Indice " + i + " non valido. Dimensione lista: " + size);
+        return array[i];
     }
 
     public boolean add(Object obj) {
@@ -130,16 +131,6 @@ public class ArrayListShozo implements ListShozo {
                 Object elementoScansionato = array[i];
                 // se l'elemento scansionato corrisponde all'oggetto in input
                 if (elementoScansionato == obj || elementoScansionato.equals(obj)) {
-                    /** se non è l'ultimo elemento, bisogna congiungere i nodi
-                     * che stavano prima e dopo quello rimosso
-                     * ES: se la lista è [a,b,c] e togliamo b
-                     * dobbiamo settare a come precedente di c
-                     */
-
-                    /**if (!(i == size - 1)) {
-                     Nodo successivoAlRimosso = array[i + 1];
-                     successivoAlRimosso.precedente = i == 0 ? null : array[i - 1];
-                     }*/
                     rimosso = true;
                 }
                 // se l'oggetto scansionato non è quello che vogliamo rimuovere, lo rimettiamo nell'array
@@ -152,9 +143,6 @@ public class ArrayListShozo implements ListShozo {
                 }
             }
             array = newArray;
-            /**
-             * ultimo = size == 1 ? null : array[array.length - 1];
-             */
             size -= rimosso ? 1 : 0;
         }
         return rimosso;
@@ -170,13 +158,11 @@ public class ArrayListShozo implements ListShozo {
             ArrayListShozo casted = (ArrayListShozo) obj;
             if (casted.size == this.size) {
                 for (int i = 0; i < this.size; i++) {
-                    if (!casted.array[i].equals(this.array[i])) {
+                    if (!Objects.equals(casted.array[i], this.array[i])) {
                         return false;
                     }
-                    if (i == size - 1) {
-                        return true;
-                    }
                 }
+                return true;
             }
             return false;
         }

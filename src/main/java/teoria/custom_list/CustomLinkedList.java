@@ -3,6 +3,8 @@ package teoria.custom_list;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 public class CustomLinkedList implements CustomList {
 
     private int size;
@@ -19,21 +21,15 @@ public class CustomLinkedList implements CustomList {
         CustomList linked = new CustomLinkedList();
         System.out.println("" + linked + " SIZE " + linked.size());
         linked.add("cane");
+        System.out.println("" + linked + " SIZE " + linked.size());
         linked.add("gatto");
         System.out.println("" + linked + " SIZE " + linked.size());
-        System.out.println(linked.get(0));
-        System.out.println(linked.get(1));
-        // test equal
-        CustomList linked2 = new CustomLinkedList();
-        linked2.add("cane");
-        System.out.println(linked.equals(linked2));
-        linked2.add("gatto");
-        System.out.println(linked.equals(linked2));
-        linked2.remove("gatto");
-        System.out.println(linked2);
-        linked2.remove("cane");
-        System.out.println(linked2);
-
+        linked.add("topo");
+        System.out.println("" + linked + " SIZE " + linked.size());
+        CustomList empty = new CustomLinkedList();
+        System.out.println("EMPTY: " + empty + " SIZE " + empty.size());
+        empty.addAll(linked);
+        System.out.println("EMPTY: " + empty + " SIZE " + empty.size());
     }
 
     @Override
@@ -128,6 +124,108 @@ public class CustomLinkedList implements CustomList {
     }
 
     @Override
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    @Override
+    public void clear() {
+        size = 0;
+        primo = null;
+        ultimo = null;
+    }
+
+    @Override
+    public boolean contains(Object obj) {
+        int count = 0;
+        Nodo esaminato = primo;
+        while (count < size) {
+            if (esaminato.getValore() == obj || esaminato.getValore().equals(obj)) {
+                return true;
+            }
+            count++;
+            esaminato = esaminato.successivo;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean addAll(CustomList list) {
+        if (list instanceof CustomLinkedList) {
+            if (this.isEmpty()) {
+                primo = ((CustomLinkedList) list).primo;
+            } else {
+                ultimo.setSuccessivo(((CustomLinkedList) list).primo);
+            }
+            ((CustomLinkedList) list).primo.setPrecedente(ultimo);
+            ultimo = ((CustomLinkedList) list).ultimo;
+            size += ((CustomLinkedList) list).size;
+        } else {
+            for (int i = 0; i < list.size(); i++) {
+                this.add(list.get(i));
+            }
+        }
+        return list.size() > 0;
+    }
+
+    @Override
+    public Object remove(int x) {
+        if (x < 0 || x >= size) {
+            throw new IndexOutOfBoundsException(
+                    "Indice " + x + " non valido. Dimensione lista: " + size);
+        }
+        Nodo esaminato = null;
+        // se l'indice è minore o uguale della dimensione della lista-i
+        // ovvero, se ci conviene scorrere la lista dall'inizio
+        if (x <= size - x) {
+            esaminato = primo;
+            int count = 0;
+            while (count < x) {
+                esaminato = esaminato.successivo;
+                count++;
+            }
+            // se l'oggetto esaminato ha un precedente (dunque non era il primo della lista)
+            if (esaminato.precedente != null) {
+                esaminato.precedente.setSuccessivo(esaminato.successivo);
+            }
+            // altrimenti imposta come primo il suo successivo
+            else {
+                primo = esaminato.successivo;
+            }
+            // se l'oggetto esaminato ha un successivo (dunque non era l'ultimo della lista)
+            if (esaminato.successivo != null) {
+                esaminato.successivo.setPrecedente(esaminato.precedente);
+            }
+            // altrimenti imposta come ultimo il suo precedente
+            else {
+                ultimo = esaminato.precedente;
+            }
+        }
+        // se invece l'indice è più vicino alla fine della lista
+        // ovvero, se ci conviene scorrere la lista dalla fine
+        else {
+            esaminato = ultimo;
+            int count = size - 1;
+            while (count > x) {
+                esaminato = esaminato.precedente;
+                count--;
+            }
+            if (esaminato.precedente != null) {
+                esaminato.precedente.setSuccessivo(esaminato.successivo);
+            } else {
+                primo = esaminato.successivo;
+            }
+            if (esaminato.successivo != null) {
+                esaminato.successivo.setPrecedente(esaminato.precedente);
+            } else {
+                ultimo = esaminato.precedente;
+            }
+        }
+        size--;
+        return esaminato.getValore();
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (obj instanceof CustomLinkedList && obj != null) {
             CustomLinkedList casted = (CustomLinkedList) obj;
@@ -136,7 +234,7 @@ public class CustomLinkedList implements CustomList {
                 Nodo esaminatoAltraLista = casted.ultimo;
                 Nodo esaminatoQuestaLista = this.ultimo;
                 while (count < this.size) {
-                    if (!esaminatoAltraLista.equals(esaminatoQuestaLista)) {
+                    if (!Objects.equals(esaminatoAltraLista, esaminatoQuestaLista)) {
                         return false;
                     }
                     esaminatoAltraLista = esaminatoAltraLista.precedente;
@@ -156,7 +254,7 @@ public class CustomLinkedList implements CustomList {
         int count = 0;
         Nodo nodo = primo;
         while (count < size) {
-            result += count == size - 1 ? nodo.getValore() : nodo.getValore() + ",";
+            result += count == size - 1 ? nodo : nodo + ",";
             nodo = nodo.successivo;
             count++;
         }
@@ -193,7 +291,10 @@ public class CustomLinkedList implements CustomList {
 
         @Override
         public String toString() {
-            return "{Nodo: " + valore + "}";
+            String prec = precedente != null ? precedente.getValore().toString().toLowerCase() : null;
+            String succ = successivo != null ? successivo.getValore().toString().toLowerCase() : null;
+            String val = valore != null ? valore.toString().toUpperCase() : null;
+            return "{" + prec + "," + val + "," + succ + "}-->";
         }
     }
 }
