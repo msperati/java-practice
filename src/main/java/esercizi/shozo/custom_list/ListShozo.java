@@ -40,4 +40,5 @@ public interface ListShozo {
      * TEMPO STIMATO PER LinkedList e ArrayList: 2 ore;
      */
     //Object remove(int x);
+
 }

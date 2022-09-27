@@ -15,6 +15,7 @@ public class ArrayListShozo implements CustomList {
         this.size = 0;
     }
 
+
     public static void main(String[] args) {
         CustomArrayList list = new CustomArrayList();
         System.out.println(list);
