@@ -1,10 +1,9 @@
 package esercizi.simone.custom_list;
 
 import lombok.Getter;
-import teoria.custom_list.CustomList;
 
 @Getter
-public class ArrayListSimone implements CustomList {
+public class ArrayListSimone implements ListSimone {
 
     private Object[] array;
     private int size;
@@ -109,6 +108,73 @@ public class ArrayListSimone implements CustomList {
             result += i == size - 1 ? array[i] : array[i] + ",";
         }
         result += "]";
+        return result;
+    }
+
+    public boolean isEmpty() {
+        if (size == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void clear() {
+        array = new Object[0];
+        size = 0;
+    }
+
+    public boolean addAll(ListSimone list) {
+        Object[] arr = new Object[this.size + list.size()];
+        boolean ris = false;
+        for (int i = 0; i < size; i++) {
+            arr[i] = array[i];
+        }
+        for (int i = 0; i < size; i++) {
+            arr[size + i] = list.get(i);
+            ris = true;
+        }
+        size += list.size();
+        array = arr;
+        return ris;
+    }
+
+    public boolean contains(Object obj) {
+
+        for (int i = 0; i < array.length; i++) {
+            Object input = array[i];
+
+            if (input == obj || input.equals(obj)) {
+
+                return true;
+            }
+
+        }
+        return false;
+    }
+
+    public Object remove(int x) {
+        if (x < 0 || x > size - 1) {
+            throw new IndexOutOfBoundsException(
+                    "Indice " + x + " non valido. Dimensione lista: " + size);
+        }
+        boolean rimosso = false;
+        Object[] newArr = new Object[size - 1];
+        Object result = null;
+        for (int i = 0; i < array.length; i++) {
+            Object elementoScansionato = array[i];
+            if (i == x) {
+                result = elementoScansionato;
+                rimosso = true;
+            } else {
+                if (rimosso) {
+                    newArr[i - 1] = array[i];
+                } else {
+                    newArr[i] = array[i];
+                }
+            }
+        }
+        size -= 1;
         return result;
     }
 }

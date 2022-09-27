@@ -150,11 +150,70 @@ public class LinkedListSimone implements ListSimone {
         int count = 0;
         Nodo nodo = primo;
         while (count < size) {
-            result += count == size - 1 ? nodo.getValore() : nodo.getValore() + ",";
+            result += count == size - 1 ? nodo : nodo + ",";
             nodo = nodo.successivo;
             count++;
         }
         result += "]";
+        return result;
+    }
+
+    public boolean isEmpty() {
+        if (size == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void clear() {
+        this.primo = null;
+        this.ultimo = null;
+        this.size = 0;
+    }
+
+    public boolean contains(Object obj) {
+        int count = 0;
+        Nodo esaminato = primo;
+        while (count < size) {
+            if (obj == esaminato.getValore() || obj.equals(esaminato.getValore())) {
+                return true;
+            }
+            esaminato = esaminato.successivo;
+            count++;
+        }
+        return false;
+
+    }
+
+    public boolean addAll(ListSimone list) {
+        for (int i = 0; i < list.size(); i++) {
+            add(list.get(i));
+        }
+        size += list.size();
+        return list.size() > 0;
+    }
+
+    public Object remove(int x) {
+        Nodo result = null;
+        if (x < 0 || x > size - 1) {
+            throw new IndexOutOfBoundsException(
+                    "Indice " + x + " non valido. Dimensione lista: " + size);
+        }
+        int i = 0;
+        Nodo esaminato = primo;
+        while (i < size) {
+            if (i == x) {
+                result = esaminato;
+                esaminato.precedente.setSuccessivo(esaminato.getSuccessivo());
+                esaminato.successivo.setPrecedente(esaminato.getPrecedente());
+            }
+            esaminato = esaminato.successivo;
+            i++;
+        }
+        primo = x == 0 ? esaminato.successivo : primo;
+        ultimo = x == size - 1 ? esaminato.precedente : ultimo;
+        size -= 1;
         return result;
     }
 
@@ -188,7 +247,10 @@ public class LinkedListSimone implements ListSimone {
 
         @Override
         public String toString() {
-            return "{Nodo: " + valore + "}";
+            String prec = precedente != null ? precedente.getValore().toString().toLowerCase() : null;
+            String succ = successivo != null ? successivo.getValore().toString().toLowerCase() : null;
+            String val = valore != null ? valore.toString().toUpperCase() : null;
+            return "{" + prec + "," + val + "," + succ + "}-->";
         }
     }
 }

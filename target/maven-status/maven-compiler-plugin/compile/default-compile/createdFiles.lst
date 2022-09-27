@@ -1,3 +1,4 @@
+esercizi\simone\PiramideSimone.class
 teoria\enums\NumeroRomano.class
 teoria\OverloadClass.class
 teoria\ExceptionsAndRuntimeExceptions.class
@@ -21,9 +22,11 @@ teoria\OverrideClass$Interfaccia.class
 teoria\enums\TestEnum$1.class
 teoria\AbstractClass$ClasseConcretaB.class
 teoria\OverrideClass$ImplementazioneB.class
+esercizi\shozo\PiramideSho.class
 esercizi\shozo\NumeroRomanoExceptionShozo.class
 teoria\AbstractClass$ClasseConcretaA.class
 esercizi\simone\NumeroRomanoExceptionSimone.class
 teoria\OverrideClass.class
 teoria\OverloadClass$1.class
 esercizi\Palindromo.class
+esercizi\simone\OperatoreTernarioTestSimone.class
