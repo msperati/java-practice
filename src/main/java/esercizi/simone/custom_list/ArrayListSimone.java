@@ -13,6 +13,7 @@ public class ArrayListSimone implements ListSimone {
         this.size = 0;
     }
 
+
     public static void main(String[] args) {
         ArrayListSimone list = new ArrayListSimone();
         System.out.println(list);
