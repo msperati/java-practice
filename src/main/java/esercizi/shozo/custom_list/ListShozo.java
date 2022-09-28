@@ -50,14 +50,14 @@ public interface ListShozo {
     Object set(int x, Object obj);
 
     /** TODO
-     * Questo metodo restituisce il valore della prima occorrenza dell'oggetto passato in input.
+     * Questo metodo restituisce l'indice della prima occorrenza dell'oggetto passato in input.
      * Se l'oggetto non è presente restituisce -1.
      * ES: lista = [a,b,c,a] indexOf(a) restituisce 0, indexOf(d) restituisce -1
      */
     int indexOf(Object obj);
 
     /** TODO
-     * Questo metodo restituisce il valore dell'ultima occorrenza dell'oggetto passato in input.
+     * Questo metodo restituisce l'indice dell'ultima occorrenza dell'oggetto passato in input.
      * Se l'oggetto non è presente restituisce -1.
      * ES: lista = [a,b,c,a] indexOf(a) restituisce 3, indexOf(d) restituisce -1
      */
