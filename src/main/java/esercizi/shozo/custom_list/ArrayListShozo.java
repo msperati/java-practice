@@ -150,10 +150,6 @@ public class ArrayListShozo implements ListShozo {
     }
 
     public boolean addAll(ListShozo list) {
-        /**
-         * Corretto, ma ti serve davvero avere la variabile aggiunto? Sarebbe meglio toglierla
-         * e poi terminare il metodo con return true
-         */
 
         Object[] arrOk = new Object[this.size + list.size()];
 
@@ -161,17 +157,15 @@ public class ArrayListShozo implements ListShozo {
             arrOk[i] = array[i];
         }
 
-        Boolean aggiunto = false;
         for (int i = 0; i < list.size(); i++) {
             arrOk[array.length + i] = list.get(i);
-
-            aggiunto = true;
         }
 
         size = arrOk.length;
 
         array = arrOk;
-        return aggiunto;
+
+        return true;
     }
 
     public Object remove(int x) {

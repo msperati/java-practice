@@ -2,6 +2,11 @@ package esercizi.shozo.custom_list;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.val;
+import teoria.custom_list.CustomArrayList;
+
+import java.util.Arrays;
+import java.util.List;
 
 import java.util.Objects;
 
@@ -45,7 +50,13 @@ public class LinkedListShozo implements ListShozo {
 //        System.out.println(objClasse.indexOf("b"));
 //        System.out.println(objClasse.lastIndexOf("d"));
 
-        objClasse.add(1, "d");
+        //objClasse.add(1,"d");
+
+
+        ListShozo listShozo2=objClasse.sublist(1,2);
+        for(int i=0;i<listShozo2.size();i++){
+            System.out.print(listShozo2.get(i));
+        }
     }
 
     private void checkIndex(int x) {
@@ -245,6 +256,7 @@ public class LinkedListShozo implements ListShozo {
                 indiceRecuperato = count;
                 return indiceRecuperato;
             }
+
             esaminato = esaminato.successivo;
             count++;
         }
@@ -260,6 +272,7 @@ public class LinkedListShozo implements ListShozo {
                 indiceRecuperato = count;
                 return indiceRecuperato;
             }
+
             esaminato = esaminato.precedente;
             count--;
         }
@@ -298,10 +311,24 @@ public class LinkedListShozo implements ListShozo {
         size++;
     }
 
-    //TODO questo non è stato implementato furbacchione XD
-    public ListShozo sublist(int inizio, int fine) {
+    public ListShozo sublist(int inizio, int fine){
+
         ListShozo newLista = new LinkedListShozo();
-        return newLista;
+        int count = 0;
+        Nodo esaminato = primo;
+
+        while (count < size ) {
+            if (count>=inizio && count<=fine) {
+                newLista.add(esaminato.getValore());
+            }
+
+            esaminato = esaminato.successivo;
+            count++;
+        }
+
+        System.out.println(newLista);
+
+        return  newLista;
     }
 
     private Nodo getNodo(int i) {
