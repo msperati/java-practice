@@ -17,19 +17,38 @@ public class ArrayListSimone implements ListSimone {
 
 
     public static void main(String[] args) {
-        ArrayListSimone list = new ArrayListSimone();
-        System.out.println(list);
-        list.add("cane");
-        list.add("gatto");
-        System.out.println(list);
+//        ArrayListSimone list = new ArrayListSimone();
+//        System.out.println(list);
+//        list.add("cane");
+//        list.add("gatto");
+//        System.out.println(list);
+//        ArrayListSimone list2 = new ArrayListSimone();
+//        System.out.println(list2);
+//        list2.add("A");
+//        list2.add("B");
+//        list2.add("C");
+//        System.out.println(list2);
+
+        ArrayListSimone objSimone = new ArrayListSimone();
+
+        objSimone.array = new Object[3];
+        objSimone.array[0] = "A";
+        objSimone.array[1] = "B";
+        objSimone.array[2] = "C";
+        System.out.println(objSimone.sublist(1, 2));
+//        objSimone.add(1, "d");
+//        System.out.println(objSimone.indexOf("B"));
+//        System.out.println(objSimone.lastIndexOf("A"));
+
+
     }
 
     public Object get(int i) {
-        if (i >= 0 && i < size - 1) {
-            return array[i];
+        if (i < 0 || i >= size) {
+            throw new IndexOutOfBoundsException(
+                    "Indice " + i + " non valido. Dimensione lista: " + size);
         }
-        throw new IndexOutOfBoundsException(
-                "Indice " + i + " non valido. Dimensione lista: " + size);
+        return array[i];
     }
 
     public boolean add(Object obj) {
@@ -180,4 +199,82 @@ public class ArrayListSimone implements ListSimone {
         size -= 1;
         return result;
     }
+
+    public Object set(int x, Object obj) {
+        if (x < 0 || x >= array.length) {
+            throw new IndexOutOfBoundsException(
+                    "Indice " + x + " non valido. Dimensione lista: " + array.length);
+        }
+        Object oldValue = array[x];
+        array[x] = obj;
+        return oldValue;
+
+//        Object oldValue = new Object();
+//        for (int i = 0; i < array.length; i++) {
+//            if (i == x) {
+//                oldValue = array[i];
+//                array[i] = obj;
+//            }
+//        }
+//        return oldValue;
+    }
+
+    public int indexOf(Object obj) {
+        for (int i = 0; i < array.length; i++) {
+            if (Objects.equals(obj, array[i])) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public int lastIndexOf(Object obj) {
+        for (int i = array.length - 1; i >= 0; i--) {
+            if (Objects.equals(obj, array[i])) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private void checkIndex(int x) {
+        if (x < 0 || x >= array.length) {
+            throw new IndexOutOfBoundsException(
+                    "Indice " + x + " non valido. Dimensione lista: " + array.length);
+        }
+    }
+
+    public void add(int x, Object obj) {
+        checkIndex(x);
+        Object[] newArr = new Object[array.length + 1];
+        boolean aggiunto = false;
+        for (int i = 0; i <= array.length; i++) {
+            if (i != x) {
+                if (aggiunto) {
+                    newArr[i] = array[i - 1];
+
+                } else {
+                    newArr[i] = array[i];
+                }
+
+            } else {
+                newArr[i] = obj;
+                aggiunto = true;
+            }
+            System.out.println(newArr[i]);
+        }
+    }
+
+    public ListSimone sublist(int inizio, int fine) {
+        checkIndex(inizio);
+        checkIndex(fine);
+        ListSimone newArr = new ArrayListSimone();
+        for (int i = 0; i <= array.length; i++) {
+            if (i >= inizio && i <= fine) {
+                newArr.add(array[i]);
+            }
+        }
+        return newArr;
+    }
+
 }

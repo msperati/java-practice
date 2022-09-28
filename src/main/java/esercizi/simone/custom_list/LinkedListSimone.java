@@ -19,21 +19,31 @@ public class LinkedListSimone implements ListSimone {
 
     public static void main(String[] args) {
         ListSimone linked = new LinkedListSimone();
-        System.out.println("" + linked + " SIZE " + linked.size());
-        linked.add("cane");
-        System.out.println("" + linked + " SIZE " + linked.size());
-        linked.add("gatto");
-        System.out.println("" + linked + " SIZE " + linked.size());
-        linked.add("cane");
-        System.out.println("" + linked + " SIZE " + linked.size());
-        System.out.println(linked.get(1));
-        linked.remove("gatto");
-        System.out.println("" + linked + " SIZE " + linked.size());
-        System.out.println(linked.get(1));
+//        System.out.println("" + linked + " SIZE " + linked.size());
+//        linked.add("cane");
+//        System.out.println("" + linked + " SIZE " + linked.size());
+//        linked.add("gatto");
+//        System.out.println("" + linked + " SIZE " + linked.size());
+//        linked.add("cane");
+//        System.out.println("" + linked + " SIZE " + linked.size());
+//        System.out.println(linked.get(1));
+//        linked.remove("gatto");
+//        System.out.println("" + linked + " SIZE " + linked.size());
+//        System.out.println(linked.get(1));
+        linked.add("A");
+        linked.add("B");
+        linked.add("A");
+        linked.add("D");
+        System.out.println(linked.lastIndexOf("E"));
     }
 
     @Override
     public Object get(int i) {
+        return getNodo(i).getValore();
+    }
+
+
+    private Nodo getNodo(int i) {
         if (i < 0 || i >= size) {
             throw new IndexOutOfBoundsException(
                     "Indice " + i + " non valido. Dimensione lista: " + size);
@@ -47,7 +57,7 @@ public class LinkedListSimone implements ListSimone {
                 esaminato = esaminato.successivo;
                 count++;
             }
-            return esaminato.getValore();
+            return esaminato;
         }
         // se invece l'indice è più vicino alla fine della lista
         // ovvero, se ci conviene scorrere la lista dalla fine
@@ -58,9 +68,10 @@ public class LinkedListSimone implements ListSimone {
                 esaminato = esaminato.precedente;
                 count--;
             }
-            return esaminato.getValore();
+            return esaminato;
         }
     }
+
 
     @Override
     public boolean add(Object obj) {
@@ -192,7 +203,6 @@ public class LinkedListSimone implements ListSimone {
         for (int i = 0; i < list.size(); i++) {
             add(list.get(i));
         }
-        size += list.size();
         return list.size() > 0;
     }
 
@@ -217,6 +227,77 @@ public class LinkedListSimone implements ListSimone {
         ultimo = x == size - 1 ? esaminato.precedente : ultimo;
         size -= 1;
         return result;
+    }
+
+    private void checkIndex(int x) {
+        if (x < 0 || x >= size) {
+            throw new IndexOutOfBoundsException(
+                    "Indice " + x + " non valido. Dimensione lista: " + size);
+        }
+    }
+
+    @Override
+    public Object set(int x, Object obj) {
+        if (x < 0 || x >= size) {
+            throw new IndexOutOfBoundsException(
+                    "Indice " + x + " non valido. Dimensione lista: " + size);
+        }
+        Nodo nodo = getNodo(x);
+        Object oldValore = nodo.getValore();
+        nodo.setValore(obj);
+        return oldValore;
+    }
+
+    @Override
+    public int indexOf(Object obj) {
+        int i = 0;
+        Nodo esaminato = primo;
+        while (i < size) {
+            if (Objects.equals(obj, esaminato.getValore())) {
+                return i;
+            }
+            esaminato = esaminato.successivo;
+            i++;
+        }
+        return -1;
+    }
+
+    @Override
+    public int lastIndexOf(Object obj) {
+        Nodo esaminato = ultimo;
+        int i = size - 1;
+        while (i >= 0) {
+            if (Objects.equals(obj, esaminato.getValore())) {
+                return i;
+            }
+            esaminato = esaminato.precedente;
+            i--;
+        }
+        return -1;
+
+    }
+
+    @Override
+    public void add(int x, Object obj) {
+        int i = 0;
+        checkIndex(x);
+        Nodo nodo = isEmpty() ? null : getNodo(x);
+        Nodo newNodo = new Nodo(nodo != null ? nodo.precedente : null, nodo.successivo, obj);
+        Nodo nodoPrecedente = nodo.precedente;
+        nodoPrecedente.successivo = newNodo;
+        nodo.precedente = newNodo;
+
+        if (x == 0) {
+            primo = newNodo;
+        } else if ((x + 1) == size) {
+            ultimo = newNodo;
+        }
+        size++;
+    }
+
+    @Override
+    public ListSimone sublist(int inizio, int fine) {
+        return null;
     }
 
     @Getter
