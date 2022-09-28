@@ -3,6 +3,8 @@ package esercizi.shozo.custom_list;
 import lombok.Getter;
 import teoria.custom_list.CustomArrayList;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -16,23 +18,131 @@ public class ArrayListShozo implements ListShozo {
         this.size = 0;
     }
 
+    public ArrayListShozo(List javaLst) {
+      this.array=new Object[javaLst.size()];
+      this.size= javaLst.size();
+
+      int count=0;
+      for(Object elemento: javaLst){
+          this.array[count]=elemento;
+          count++;
+      }
+    }
+
 
     public static void main(String[] args) {
+
+        ArrayListShozo obj=  new ArrayListShozo();
+        obj.array = new Object[3];
+        obj.array[0]="a";
+        obj.array[1]="b";
+        obj.array[2]="c";
+
+
         CustomArrayList list = new CustomArrayList();
         System.out.println(list);
 //        list.add("cane");
 //        list.add("gatto");
 //        System.out.println(list);
 
-        ArrayListShozo list2 = new ArrayListShozo();
-        list2.add("1");
-        list2.add("2");
-        list2.add("3");
-        //System.out.println(list2);
-        ArrayListShozo obj=  new ArrayListShozo();
-        Boolean ris= obj.addAll(list2);
+//        ArrayListShozo list2 = new ArrayListShozo();
+//        list2.add("1");
+//        list2.add("2");
+//        list2.add("3");
+//        ArrayListShozo obj=  new ArrayListShozo();
+//        Boolean ris= obj.addAll(list2);
+        //System.out.println(list2.get(2));
 
+
+
+        //System.out.println(obj.set(1, "B"));
+        //System.out.println(obj.indexOf("b"));
+//        System.out.println(obj.lastIndexOf("b"));
+
+
+        obj.add(2,"d");
     }
+
+   public void add(int x, Object obj){
+       checkIndex(x);
+
+       Object [] arrOk= new Object[array.length + 1];
+
+       Boolean aggiunto=false;
+       for(int i=0; i <= array.length;i++)
+       {
+           if(i!=x){
+               if(aggiunto){
+                   arrOk[i]=array[i-1];
+               }
+               else{
+                   arrOk[i]=array[i];
+               }
+           }
+           else{
+               arrOk[i]=obj;
+               aggiunto=true;
+           }
+           System.out.println(arrOk[i]);
+       }
+    }
+
+    public ListShozo sublist(int inizio, int fine){
+        checkIndex(inizio);
+        checkIndex(fine);
+
+        ListShozo newLista = new ArrayListShozo();
+
+        for(int i=0; i < array.length;i++)
+        {
+            if(i>=inizio && i<=fine){
+                newLista.add(array[i]);
+            }
+        }
+
+        return newLista;
+    }
+
+    private void checkIndex(int x){
+        if (x < 0 || x >= array.length) {
+            throw new IndexOutOfBoundsException(
+                    "Indice " + x + " non valido. Dimensione lista: " + array.length);
+        }
+    }
+    //ListShozo sublist(int inizio, int fine);
+
+
+    public Object set(int x, Object obj){
+        checkIndex(x);
+
+        Object oldValue= array[x];
+
+        array[x]=obj;
+
+        return oldValue;
+    }
+
+    public int indexOf(Object obj){
+        for(int i=0; i < array.length;i++)
+        {
+             if(Objects.equals(array[i],obj)){
+                 return  i;
+             }
+        }
+        return -1;
+    }
+
+    public  int lastIndexOf(Object obj){
+        for(int i=array.length-1; i>=0;i--)
+        {
+            if(Objects.equals(array[i],obj)){
+                return  i;
+            }
+        }
+        return -1;
+    }
+
+
 
     public boolean isEmpty() {
 
@@ -72,7 +182,8 @@ public class ArrayListShozo implements ListShozo {
         Boolean aggiunto=false;
         for(int i=0; i < list.size();i++)
         {
-            arrOk[array.length+i]=list.get(i);  //????????????
+           arrOk[array.length+i]=list.get(i);
+
             aggiunto=true;
         }
 
@@ -84,10 +195,7 @@ public class ArrayListShozo implements ListShozo {
 
     public Object remove(int x){
 
-        if (x < 0 || x > size - 1) {
-            throw new IndexOutOfBoundsException(
-                    "Indice " + x + " non valido. Dimensione lista: " + size);
-        }
+        checkIndex(x);
 
         Object elementEliminato=null;
         Object [] arrOk= new Object[ array.length-1];
@@ -105,10 +213,7 @@ public class ArrayListShozo implements ListShozo {
     }
 
     public Object get(int i) {
-        if (i < 0 || i >= size) {
-            throw new IndexOutOfBoundsException(
-                    "Indice " + i + " non valido. Dimensione lista: " + size);
-        }
+        checkIndex(i);
         return array[i];
     }
 
@@ -168,6 +273,8 @@ public class ArrayListShozo implements ListShozo {
         }
         return false;
     }
+
+
 
     @Override
     public String toString() {
