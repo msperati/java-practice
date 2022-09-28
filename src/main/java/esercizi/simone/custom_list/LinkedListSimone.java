@@ -38,40 +38,10 @@ public class LinkedListSimone implements ListSimone {
     }
 
     @Override
-    public Object get(int i) {
-        return getNodo(i).getValore();
+    public Object get(int x) {
+        checkIndex(x);
+        return getNodo(x).getValore();
     }
-
-
-    private Nodo getNodo(int i) {
-        if (i < 0 || i >= size) {
-            throw new IndexOutOfBoundsException(
-                    "Indice " + i + " non valido. Dimensione lista: " + size);
-        }
-        // se l'indice è minore o uguale della dimensione della lista-i
-        // ovvero, se ci conviene scorrere la lista dall'inizio
-        if (i <= size - i) {
-            Nodo esaminato = primo;
-            int count = 0;
-            while (count < i) {
-                esaminato = esaminato.successivo;
-                count++;
-            }
-            return esaminato;
-        }
-        // se invece l'indice è più vicino alla fine della lista
-        // ovvero, se ci conviene scorrere la lista dalla fine
-        else {
-            Nodo esaminato = ultimo;
-            int count = size - 1;
-            while (count > i) {
-                esaminato = esaminato.precedente;
-                count--;
-            }
-            return esaminato;
-        }
-    }
-
 
     @Override
     public boolean add(Object obj) {
@@ -134,43 +104,6 @@ public class LinkedListSimone implements ListSimone {
         return size;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof LinkedListSimone && obj != null) {
-            LinkedListSimone casted = (LinkedListSimone) obj;
-            if (casted.size == this.size) {
-                int count = 0;
-                Nodo ultimo = casted.ultimo;
-                Nodo thisUltimo = this.ultimo;
-                while (count < this.size) {
-                    if (!Objects.equals(ultimo, thisUltimo)) {
-                        return false;
-                    }
-                    ultimo = ultimo.precedente;
-                    thisUltimo = this.ultimo.precedente;
-                    count++;
-                }
-                return true;
-            }
-            return false;
-        }
-        return false;
-    }
-
-    @Override
-    public String toString() {
-        String result = "[";
-        int count = 0;
-        Nodo nodo = primo;
-        while (count < size) {
-            result += count == size - 1 ? nodo : nodo + ",";
-            nodo = nodo.successivo;
-            count++;
-        }
-        result += "]";
-        return result;
-    }
-
     public boolean isEmpty() {
         if (size == 0) {
             return true;
@@ -207,11 +140,8 @@ public class LinkedListSimone implements ListSimone {
     }
 
     public Object remove(int x) {
+        checkIndex(x);
         Nodo result = null;
-        if (x < 0 || x > size - 1) {
-            throw new IndexOutOfBoundsException(
-                    "Indice " + x + " non valido. Dimensione lista: " + size);
-        }
         int i = 0;
         Nodo esaminato = primo;
         while (i < size) {
@@ -229,19 +159,9 @@ public class LinkedListSimone implements ListSimone {
         return result;
     }
 
-    private void checkIndex(int x) {
-        if (x < 0 || x >= size) {
-            throw new IndexOutOfBoundsException(
-                    "Indice " + x + " non valido. Dimensione lista: " + size);
-        }
-    }
-
     @Override
     public Object set(int x, Object obj) {
-        if (x < 0 || x >= size) {
-            throw new IndexOutOfBoundsException(
-                    "Indice " + x + " non valido. Dimensione lista: " + size);
-        }
+        checkIndex(x);
         Nodo nodo = getNodo(x);
         Object oldValore = nodo.getValore();
         nodo.setValore(obj);
@@ -279,8 +199,16 @@ public class LinkedListSimone implements ListSimone {
 
     @Override
     public void add(int x, Object obj) {
-        int i = 0;
-        checkIndex(x);
+
+        /**
+         * Qua niente checkIndex, perchè quello va in eccezione con >= size
+         * mentre qua un indice == size va bene
+         */
+        if (x < 0 || x > size) {
+            throw new IndexOutOfBoundsException(
+                    "Indice " + x + " non valido. Dimensione lista: " + size);
+        }
+//        int i = 0; //TODO a che ti serve sta variabile int i = 0 ?
         Nodo nodo = isEmpty() ? null : getNodo(x);
         Nodo newNodo = new Nodo(nodo != null ? nodo.precedente : null, nodo.successivo, obj);
         Nodo nodoPrecedente = nodo.precedente;
@@ -295,9 +223,79 @@ public class LinkedListSimone implements ListSimone {
         size++;
     }
 
+    // TODO, implementa per bene il metodo furbacchione XD
     @Override
     public ListSimone sublist(int inizio, int fine) {
         return null;
+    }
+
+    private Nodo getNodo(int i) {
+        // se l'indice è minore o uguale della dimensione della lista-i
+        // ovvero, se ci conviene scorrere la lista dall'inizio
+        if (i <= size - i) {
+            Nodo esaminato = primo;
+            int count = 0;
+            while (count < i) {
+                esaminato = esaminato.successivo;
+                count++;
+            }
+            return esaminato;
+        }
+        // se invece l'indice è più vicino alla fine della lista
+        // ovvero, se ci conviene scorrere la lista dalla fine
+        else {
+            Nodo esaminato = ultimo;
+            int count = size - 1;
+            while (count > i) {
+                esaminato = esaminato.precedente;
+                count--;
+            }
+            return esaminato;
+        }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof LinkedListSimone && obj != null) {
+            LinkedListSimone casted = (LinkedListSimone) obj;
+            if (casted.size == this.size) {
+                int count = 0;
+                Nodo ultimo = casted.ultimo;
+                Nodo thisUltimo = this.ultimo;
+                while (count < this.size) {
+                    if (!Objects.equals(ultimo, thisUltimo)) {
+                        return false;
+                    }
+                    ultimo = ultimo.precedente;
+                    thisUltimo = this.ultimo.precedente;
+                    count++;
+                }
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        String result = "[";
+        int count = 0;
+        Nodo nodo = primo;
+        while (count < size) {
+            result += count == size - 1 ? nodo : nodo + ",";
+            nodo = nodo.successivo;
+            count++;
+        }
+        result += "]";
+        return result;
+    }
+
+    private void checkIndex(int x) {
+        if (x < 0 || x >= size) {
+            throw new IndexOutOfBoundsException(
+                    "Indice " + x + " non valido. Dimensione lista: " + size);
+        }
     }
 
     @Getter

@@ -43,39 +43,44 @@ public interface ListSimone {
      */
     Object remove(int x);
 
-    /** TODO
+    /**
+     * TODO
      * Questo metodo cambia il valore dell'i-esimo oggetto della lista con il valore passato in input.
      * Restituisce il vecchio valore dell'oggetto modificato.
      * ES: lista = [a,b,c] set(1,"D") cambia la lista in [a,D,c] e restituisce b
      * Lancia una IndexOutOfBoundsException se l'indice non è conforme.
      */
-    //Object set(int x, Object obj);
+    Object set(int x, Object obj);
 
-    /** TODO
+    /**
+     * TODO
      * Questo metodo restituisce l'indice della prima occorrenza dell'oggetto passato in input.
      * Se l'oggetto non è presente restituisce -1.
      * ES: lista = [a,b,c,a] indexOf(a) restituisce 0, indexOf(d) restituisce -1
      */
-    //int indexOf(Object obj);
+    int indexOf(Object obj);
 
-    /** TODO
+    /**
+     * TODO
      * Questo metodo restituisce l'indice dell'ultima occorrenza dell'oggetto passato in input.
      * Se l'oggetto non è presente restituisce -1.
      * ES: lista = [a,b,c,a] indexOf(a) restituisce 3, indexOf(d) restituisce -1
      */
-    //int lastIndexOf(Object obj);
+    int lastIndexOf(Object obj);
 
-    /** TODO
+    /**
+     * TODO
      * Questo metodo aggiunge l'oggetto passato in input alla posizione i-esima.
      * ES: lista = [a,b,c] add(1, D) modifica la lista in [a,D,b,c]
      * Lancia una IndexOutOfBoundsException se l'indice non è conforme.
      */
-    //void add(int x, Object obj);
+    void add(int x, Object obj);
 
-    /** TODO
+    /**
+     * TODO
      * Questo metodo restituisce una lista con gli elementi compresi tra gli indici di inizio e fine.
      * ES: lista = [a,b,c,d,e] sublist(1,3) restituisce [b,c,d]
      * Lancia una IndexOutOfBoundsException se gli indici non sono conformi.
      */
-    //ListSimone sublist(int inizio, int fine);
+    ListSimone sublist(int inizio, int fine);
 }

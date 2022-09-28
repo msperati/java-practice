@@ -3,7 +3,6 @@ package esercizi.shozo.custom_list;
 import lombok.Getter;
 import teoria.custom_list.CustomArrayList;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,24 +18,24 @@ public class ArrayListShozo implements ListShozo {
     }
 
     public ArrayListShozo(List javaLst) {
-      this.array=new Object[javaLst.size()];
-      this.size= javaLst.size();
+        this.array = new Object[javaLst.size()];
+        this.size = javaLst.size();
 
-      int count=0;
-      for(Object elemento: javaLst){
-          this.array[count]=elemento;
-          count++;
-      }
+        int count = 0;
+        for (Object elemento : javaLst) {
+            this.array[count] = elemento;
+            count++;
+        }
     }
 
 
     public static void main(String[] args) {
 
-        ArrayListShozo obj=  new ArrayListShozo();
+        ArrayListShozo obj = new ArrayListShozo();
         obj.array = new Object[3];
-        obj.array[0]="a";
-        obj.array[1]="b";
-        obj.array[2]="c";
+        obj.array[0] = "a";
+        obj.array[1] = "b";
+        obj.array[2] = "c";
 
 
         CustomArrayList list = new CustomArrayList();
@@ -54,162 +53,19 @@ public class ArrayListShozo implements ListShozo {
         //System.out.println(list2.get(2));
 
 
-
         //System.out.println(obj.set(1, "B"));
         //System.out.println(obj.indexOf("b"));
 //        System.out.println(obj.lastIndexOf("b"));
 
 
-        obj.add(2,"d");
+        obj.add(2, "d");
     }
 
-   public void add(int x, Object obj){
-       checkIndex(x);
-
-       Object [] arrOk= new Object[array.length + 1];
-
-       Boolean aggiunto=false;
-       for(int i=0; i <= array.length;i++)
-       {
-           if(i!=x){
-               if(aggiunto){
-                   arrOk[i]=array[i-1];
-               }
-               else{
-                   arrOk[i]=array[i];
-               }
-           }
-           else{
-               arrOk[i]=obj;
-               aggiunto=true;
-           }
-           System.out.println(arrOk[i]);
-       }
-    }
-
-    public ListShozo sublist(int inizio, int fine){
-        checkIndex(inizio);
-        checkIndex(fine);
-
-        ListShozo newLista = new ArrayListShozo();
-
-        for(int i=0; i < array.length;i++)
-        {
-            if(i>=inizio && i<=fine){
-                newLista.add(array[i]);
-            }
-        }
-
-        return newLista;
-    }
-
-    private void checkIndex(int x){
-        if (x < 0 || x >= array.length) {
+    private void checkIndex(int x) {
+        if (x < 0 || x >= size) {
             throw new IndexOutOfBoundsException(
-                    "Indice " + x + " non valido. Dimensione lista: " + array.length);
+                    "Indice " + x + " non valido. Dimensione lista: " + size);
         }
-    }
-    //ListShozo sublist(int inizio, int fine);
-
-
-    public Object set(int x, Object obj){
-        checkIndex(x);
-
-        Object oldValue= array[x];
-
-        array[x]=obj;
-
-        return oldValue;
-    }
-
-    public int indexOf(Object obj){
-        for(int i=0; i < array.length;i++)
-        {
-             if(Objects.equals(array[i],obj)){
-                 return  i;
-             }
-        }
-        return -1;
-    }
-
-    public  int lastIndexOf(Object obj){
-        for(int i=array.length-1; i>=0;i--)
-        {
-            if(Objects.equals(array[i],obj)){
-                return  i;
-            }
-        }
-        return -1;
-    }
-
-
-
-    public boolean isEmpty() {
-
-        return this.array.length == 0;
-    }
-
-    public void clear(){
-        this.array = new Object[0];
-        this.size = 0;
-    }
-
-    public boolean contains(Object obj){
-        Boolean ris=false;
-            for (int i = 0; i < array.length; i++) {
-                Object elementoScansionato = array[i];
-                // se l'elemento scansionato corrisponde all'oggetto in input
-                if (elementoScansionato == obj || elementoScansionato.equals(obj)) {
-                    ris= true;
-                }
-                else{
-                    ris= false;
-                }
-            }
-     return ris;
-    }
-
-
-
-    public boolean addAll(ListShozo list){
-        Object [] arrOk= new Object[this.size + list.size()];
-
-        for(int i=0; i < array.length;i++)
-        {
-            arrOk[i]=array[i];
-        }
-
-        Boolean aggiunto=false;
-        for(int i=0; i < list.size();i++)
-        {
-           arrOk[array.length+i]=list.get(i);
-
-            aggiunto=true;
-        }
-
-        size=arrOk.length;
-
-        array=arrOk;
-        return aggiunto;
-    }
-
-    public Object remove(int x){
-
-        checkIndex(x);
-
-        Object elementEliminato=null;
-        Object [] arrOk= new Object[ array.length-1];
-        for (int i = 0; i < array.length; i++) {
-            // se l'elemento scansionato corrisponde all'oggetto in input
-           if(i!=x){
-               arrOk[i]=array[i];
-           }
-           else {
-               elementEliminato=array[i];
-           }
-        }
-        size-=1;
-        return elementEliminato;
     }
 
     public Object get(int i) {
@@ -257,6 +113,153 @@ public class ArrayListShozo implements ListShozo {
         return size;
     }
 
+    public boolean isEmpty() {
+        return this.array.length == 0;
+    }
+
+    public void clear() {
+        this.array = new Object[0];
+        this.size = 0;
+    }
+
+    public boolean contains(Object obj) {
+        /** QUESTO ERA IMPLEMENTATO MALE:
+         * appena trovi uno che corrisponde all'Object in input devi SUBITO ritornare false.
+         * Viceversa, come l'hai scritto tu, imposti ris a true, poi continui a scorrere la lista
+         * e se gli oggetti successivi non corrisponono a Obj, cambi il valore a false.
+         * L'implementazione corretta è:
+         */
+        for (int i = 0; i < size; i++) {
+            if (array[i] == obj || array[i].equals(obj)) {
+                return true;
+            }
+        }
+        return false;
+
+//        Boolean ris = false;
+//        for (int i = 0; i < array.length; i++) {
+//            Object elementoScansionato = array[i];
+//            // se l'elemento scansionato corrisponde all'oggetto in input
+//            if (elementoScansionato == obj || elementoScansionato.equals(obj)) {
+//                ris = true;
+//            } else {
+//                ris = false;
+//            }
+//        }
+//        return ris;
+    }
+
+    public boolean addAll(ListShozo list) {
+        /**
+         * Corretto, ma ti serve davvero avere la variabile aggiunto? Sarebbe meglio toglierla
+         * e poi terminare il metodo con return true
+         */
+
+        Object[] arrOk = new Object[this.size + list.size()];
+
+        for (int i = 0; i < array.length; i++) {
+            arrOk[i] = array[i];
+        }
+
+        Boolean aggiunto = false;
+        for (int i = 0; i < list.size(); i++) {
+            arrOk[array.length + i] = list.get(i);
+
+            aggiunto = true;
+        }
+
+        size = arrOk.length;
+
+        array = arrOk;
+        return aggiunto;
+    }
+
+    public Object remove(int x) {
+
+        checkIndex(x);
+
+        Object elementEliminato = null;
+        Object[] arrOk = new Object[array.length - 1];
+        for (int i = 0; i < array.length; i++) {
+            // se l'elemento scansionato corrisponde all'oggetto in input
+            if (i != x) {
+                arrOk[i] = array[i];
+            } else {
+                elementEliminato = array[i];
+            }
+        }
+        size -= 1;
+        return elementEliminato;
+    }
+
+    public Object set(int x, Object obj) {
+        checkIndex(x);
+        Object oldValue = array[x];
+        array[x] = obj;
+        return oldValue;
+    }
+
+    public int indexOf(Object obj) {
+        for (int i = 0; i < array.length; i++) {
+            if (Objects.equals(array[i], obj)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public int lastIndexOf(Object obj) {
+        for (int i = array.length - 1; i >= 0; i--) {
+            if (Objects.equals(array[i], obj)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public void add(int x, Object obj) {
+        /**
+         * Qua niente checkIndex, perchè quello va in eccezione con >= size
+         * mentre qua un indice == size va bene
+         */
+        if (x < 0 || x > size) {
+            throw new IndexOutOfBoundsException(
+                    "Indice " + x + " non valido. Dimensione lista: " + size);
+        }
+
+        Object[] arrOk = new Object[array.length + 1];
+
+        Boolean aggiunto = false;
+        for (int i = 0; i <= array.length; i++) {
+            if (i != x) {
+                if (aggiunto) {
+                    arrOk[i] = array[i - 1];
+                } else {
+                    arrOk[i] = array[i];
+                }
+            } else {
+                arrOk[i] = obj;
+                aggiunto = true;
+            }
+            System.out.println(arrOk[i]);
+        }
+    }
+
+    public ListShozo sublist(int inizio, int fine) {
+        checkIndex(inizio);
+        checkIndex(fine);
+
+        ListShozo newLista = new ArrayListShozo();
+
+        for (int i = 0; i < array.length; i++) {
+            if (i >= inizio && i <= fine) {
+                newLista.add(array[i]);
+            }
+        }
+
+        return newLista;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof ArrayListShozo && obj != null) {
@@ -273,7 +276,6 @@ public class ArrayListShozo implements ListShozo {
         }
         return false;
     }
-
 
 
     @Override

@@ -39,16 +39,11 @@ public class ArrayListSimone implements ListSimone {
 //        objSimone.add(1, "d");
 //        System.out.println(objSimone.indexOf("B"));
 //        System.out.println(objSimone.lastIndexOf("A"));
-
-
     }
 
-    public Object get(int i) {
-        if (i < 0 || i >= size) {
-            throw new IndexOutOfBoundsException(
-                    "Indice " + i + " non valido. Dimensione lista: " + size);
-        }
-        return array[i];
+    public Object get(int x) {
+        checkIndex(x);
+        return array[x];
     }
 
     public boolean add(Object obj) {
@@ -70,16 +65,6 @@ public class ArrayListSimone implements ListSimone {
                 Object elementoScansionato = array[i];
                 // se l'elemento scansionato corrisponde all'oggetto in input
                 if (elementoScansionato == obj || elementoScansionato.equals(obj)) {
-                    /** se non è l'ultimo elemento, bisogna congiungere i nodi
-                     * che stavano prima e dopo quello rimosso
-                     * ES: se la lista è [a,b,c] e togliamo b
-                     * dobbiamo settare a come precedente di c
-                     */
-
-                    /**if (!(i == size - 1)) {
-                     Nodo successivoAlRimosso = array[i + 1];
-                     successivoAlRimosso.precedente = i == 0 ? null : array[i - 1];
-                     }*/
                     rimosso = true;
                 }
                 // se l'oggetto scansionato non è quello che vogliamo rimuovere, lo rimettiamo nell'array
@@ -92,9 +77,6 @@ public class ArrayListSimone implements ListSimone {
                 }
             }
             array = newArray;
-            /**
-             * ultimo = size == 1 ? null : array[array.length - 1];
-             */
             size -= rimosso ? 1 : 0;
         }
         return rimosso;
@@ -104,35 +86,9 @@ public class ArrayListSimone implements ListSimone {
         return size;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof ArrayListSimone && obj != null) {
-            ArrayListSimone casted = (ArrayListSimone) obj;
-            if (casted.size == this.size) {
-                for (int i = 0; i < this.size; i++) {
-                    if (!Objects.equals(casted.array[i], this.array[i])) {
-                        return false;
-                    }
-                    if (i == size - 1) {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-        return false;
-    }
-
-    @Override
-    public String toString() {
-        String result = "[";
-        for (int i = 0; i < size; i++) {
-            result += i == size - 1 ? array[i] : array[i] + ",";
-        }
-        result += "]";
-        return result;
-    }
-
+    /**
+     * Ok, ma è molto più semplice scrivere direttamente return size == 0
+     */
     public boolean isEmpty() {
         if (size == 0) {
             return true;
@@ -146,6 +102,20 @@ public class ArrayListSimone implements ListSimone {
         size = 0;
     }
 
+    public boolean contains(Object obj) {
+        for (int i = 0; i < array.length; i++) {
+            Object input = array[i];
+            if (input == obj || input.equals(obj)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Ok, ma questo metodo restituisce sempre true, quindi la variabile ris non serve.
+     * Basta mettere return true come ultima istruzione del metodo.
+     */
     public boolean addAll(ListSimone list) {
         Object[] arr = new Object[this.size + list.size()];
         boolean ris = false;
@@ -161,25 +131,8 @@ public class ArrayListSimone implements ListSimone {
         return ris;
     }
 
-    public boolean contains(Object obj) {
-
-        for (int i = 0; i < array.length; i++) {
-            Object input = array[i];
-
-            if (input == obj || input.equals(obj)) {
-
-                return true;
-            }
-
-        }
-        return false;
-    }
-
     public Object remove(int x) {
-        if (x < 0 || x > size - 1) {
-            throw new IndexOutOfBoundsException(
-                    "Indice " + x + " non valido. Dimensione lista: " + size);
-        }
+        checkIndex(x);
         boolean rimosso = false;
         Object[] newArr = new Object[size - 1];
         Object result = null;
@@ -201,10 +154,7 @@ public class ArrayListSimone implements ListSimone {
     }
 
     public Object set(int x, Object obj) {
-        if (x < 0 || x >= array.length) {
-            throw new IndexOutOfBoundsException(
-                    "Indice " + x + " non valido. Dimensione lista: " + array.length);
-        }
+        checkIndex(x);
         Object oldValue = array[x];
         array[x] = obj;
         return oldValue;
@@ -237,15 +187,18 @@ public class ArrayListSimone implements ListSimone {
         return -1;
     }
 
-    private void checkIndex(int x) {
-        if (x < 0 || x >= array.length) {
-            throw new IndexOutOfBoundsException(
-                    "Indice " + x + " non valido. Dimensione lista: " + array.length);
-        }
-    }
-
+    /**
+     * OCCHIO, TI SEI DIMENTICATO DI FARE size++ L'HO AGGIUNTA IO PER TE
+     */
     public void add(int x, Object obj) {
-        checkIndex(x);
+        /**
+         * Qua niente checkIndex, perchè quello va in eccezione con >= size
+         * mentre qua un indice == size va bene
+         */
+        if (x < 0 || x > size) {
+            throw new IndexOutOfBoundsException(
+                    "Indice " + x + " non valido. Dimensione lista: " + size);
+        }
         Object[] newArr = new Object[array.length + 1];
         boolean aggiunto = false;
         for (int i = 0; i <= array.length; i++) {
@@ -261,7 +214,7 @@ public class ArrayListSimone implements ListSimone {
                 newArr[i] = obj;
                 aggiunto = true;
             }
-            System.out.println(newArr[i]);
+            size++;
         }
     }
 
@@ -275,6 +228,42 @@ public class ArrayListSimone implements ListSimone {
             }
         }
         return newArr;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ArrayListSimone && obj != null) {
+            ArrayListSimone casted = (ArrayListSimone) obj;
+            if (casted.size == this.size) {
+                for (int i = 0; i < this.size; i++) {
+                    if (!Objects.equals(casted.array[i], this.array[i])) {
+                        return false;
+                    }
+                    if (i == size - 1) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        String result = "[";
+        for (int i = 0; i < size; i++) {
+            result += i == size - 1 ? array[i] : array[i] + ",";
+        }
+        result += "]";
+        return result;
+    }
+
+    private void checkIndex(int x) {
+        if (x < 0 || x >= array.length) {
+            throw new IndexOutOfBoundsException(
+                    "Indice " + x + " non valido. Dimensione lista: " + array.length);
+        }
     }
 
 }

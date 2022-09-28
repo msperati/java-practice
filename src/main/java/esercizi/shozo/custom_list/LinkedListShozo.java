@@ -2,11 +2,6 @@ package esercizi.shozo.custom_list;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.val;
-import teoria.custom_list.CustomArrayList;
-
-import java.util.Arrays;
-import java.util.List;
 
 import java.util.Objects;
 
@@ -23,12 +18,12 @@ public class LinkedListShozo implements ListShozo {
     }
 
     public static void main(String[] args) {
-          ListShozo linked = new LinkedListShozo();
-          //System.out.println("" + linked + " SIZE " + linked.size());
-          //linked.add("cane");
-          //System.out.println("" + linked + " SIZE " + linked.size());
-          //linked.add("gatto");
-          //System.out.println("" + linked + " SIZE " + linked.size());
+        ListShozo linked = new LinkedListShozo();
+//        System.out.println("" + linked + " SIZE " + linked.size());
+//        linked.add("cane");
+//        System.out.println("" + linked + " SIZE " + linked.size());
+//        linked.add("gatto");
+//        System.out.println("" + linked + " SIZE " + linked.size());
 //        linked.add("cane");
 //        System.out.println("" + linked + " SIZE " + linked.size());
 //        System.out.println(linked.get(1));
@@ -43,199 +38,28 @@ public class LinkedListShozo implements ListShozo {
         objClasse.add("c");
 
 
+//        linkedEmpty.addAll(linked2);
+//        System.out.println("" + linkedEmpty + " SIZE " + linkedEmpty.size());
+//
+//        System.out.println(objClasse.set(1,"d"));
+//        System.out.println(objClasse.indexOf("b"));
+//        System.out.println(objClasse.lastIndexOf("d"));
 
-        //linkedEmpty.addAll(linked2);
-        //System.out.println("" + linkedEmpty + " SIZE " + linkedEmpty.size());
-
-        //System.out.println(objClasse.set(1,"d"));
-        //System.out.println(objClasse.indexOf("b"));
-        //System.out.println(objClasse.lastIndexOf("d"));
-
-        objClasse.add(1,"d");
-
-
+        objClasse.add(1, "d");
     }
 
-
-
-    public Object set(int x, Object obj) {
-        if (x < 0 || x > size-1) {
+    private void checkIndex(int x) {
+        if (x < 0 || x >= size) {
             throw new IndexOutOfBoundsException(
                     "Indice " + x + " non valido. Dimensione lista: " + size);
         }
-
-        Nodo nodo = getNodo(x);
-        Object valOld=nodo.getValore();
-        nodo.setValore(obj);
-        return valOld;
-
-        //OPPURE:
-
-//        int count = 0;
-//        Object valOld= new Object();
-//        Nodo esaminato = primo;
-//        while (count < size ) {
-//            if (count==x) {
-//
-//                valOld= esaminato.getValore();
-//
-//                esaminato.setValore(obj);
-//                break;
-//            }
-//
-//            esaminato = esaminato.successivo;
-//            count++;
-//        }
-//
-//      return valOld;
     }
-
-    public int indexOf(Object obj){
-        int indiceRecuperato=0;
-        int count = 0;
-        Object valOld= new Object();
-        Nodo esaminato = primo;
-        while (count < size ) {
-            if (esaminato.getValore()==obj) {
-                indiceRecuperato=count;
-                return indiceRecuperato;
-            }
-
-            esaminato = esaminato.successivo;
-            count++;
-        }
-        return -1;
-    }
-
-    public  int lastIndexOf(Object obj){
-        int indiceRecuperato=0;
-        int count = size-1;
-        Nodo esaminato = ultimo;
-        while (count >= 0 ) {
-            if (esaminato.getValore()==obj) {
-                indiceRecuperato=count;
-                return indiceRecuperato;
-            }
-
-            esaminato = esaminato.precedente;
-            count--;
-        }
-        return -1;
-    }
-
-    @Override
-    public void add(int x, Object obj) {
-
-        if (x < 0 || x > size) {
-            throw new IndexOutOfBoundsException(
-                    "Indice " + x + " non valido. Dimensione lista: " + size);
-        }
-
-        Nodo nodo= isEmpty() ? null : getNodo(x);
-        Nodo nodoNew= new Nodo(nodo!=null? nodo.precedente: null, obj, nodo.successivo);
-
-        Nodo nodoPrecedente= nodo.precedente;
-        nodoPrecedente.successivo=nodoNew;
-        nodo.precedente=nodoNew;
-
-        if(x==0){
-           primo= nodoNew;
-        } else if ((x+1)==size) {
-            ultimo=nodoNew;
-        }
-
-        size++;
-
-
-    }
-
-    public ListShozo sublist(int inizio, int fine){
-
-        ListShozo newLista = new LinkedListShozo();
-        return newLista;
-    }
-
-    public boolean isEmpty() {
-
-        return this.size==0;
-    }
-
-    public void clear(){
-        this.primo=null;
-        this.ultimo=null;
-        this.size = 0;
-    }
-    public boolean contains(Object obj){
-
-        int count = 0;
-        Nodo esaminato = primo;
-        while (count < size ) {
-            if (obj == esaminato.getValore() || obj.equals(esaminato.getValore())) {
-                return true;
-            }
-
-            esaminato = esaminato.successivo;
-            count++;
-        }
-
-        return false;
-    }
-
-
-    public boolean addAll(ListShozo list){
-        int sizeOld=size;
-        for(int i=0; i <list.size();i++)
-        {
-            add(list.get(i));
-        }
-
-        //size+=list.size(); //LO AUMENTA IN AUTOMATICO
-
-
-
-       return sizeOld!=size;
-    }
-
-
-    public Object remove(int x){
-
-        if (x < 0 || x > size-1) {
-            throw new IndexOutOfBoundsException(
-                    "Indice " + x + " non valido. Dimensione lista: " + size);
-        }
-
-        Nodo elementEliminato=null;
-        int count = 0;
-        Nodo esaminato = primo;
-        while (count < size ) {
-
-            if (count == x) {
-                elementEliminato=esaminato;
-                esaminato.precedente.setSuccessivo(esaminato.getSuccessivo());
-                esaminato.successivo.setPrecedente(esaminato.getPrecedente());
-            }
-            esaminato = esaminato.successivo;
-
-            count++;
-        }
-        primo = x==0?elementEliminato.successivo:primo;
-        ultimo=x==size-1 ? elementEliminato.precedente:ultimo;
-
-        size-=1;
-        return elementEliminato;
-    }
-
-
-
 
     @Override
     public Object get(int i) {
+        checkIndex(i);
         //return getNodo(i).getValore(); //QUESTA RIGA OPPURE IL CODICE SOTTO.
 
-        if (i < 0 || i >= size) {
-            throw new IndexOutOfBoundsException(
-                    "Indice " + i + " non valido. Dimensione lista: " + size);
-        }
         // se l'indice è minore o uguale della dimensione della lista-i
         // ovvero, se ci conviene scorrere la lista dall'inizio
         if (i <= size - i) {
@@ -257,36 +81,6 @@ public class LinkedListShozo implements ListShozo {
                 count--;
             }
             return esaminato.getValore();
-        }
-    }
-
-
-    private Nodo getNodo(int i) {
-        if (i < 0 || i >= size) {
-            throw new IndexOutOfBoundsException(
-                    "Indice " + i + " non valido. Dimensione lista: " + size);
-        }
-        // se l'indice è minore o uguale della dimensione della lista-i
-        // ovvero, se ci conviene scorrere la lista dall'inizio
-        if (i <= size - i) {
-            Nodo esaminato = primo;
-            int count = 0;
-            while (count < i) {
-                esaminato = esaminato.successivo;
-                count++;
-            }
-            return esaminato;
-        }
-        // se invece l'indice è più vicino alla fine della lista
-        // ovvero, se ci conviene scorrere la lista dalla fine
-        else {
-            Nodo esaminato = ultimo;
-            int count = size - 1;
-            while (count > i) {
-                esaminato = esaminato.precedente;
-                count--;
-            }
-            return esaminato;
         }
     }
 
@@ -351,6 +145,190 @@ public class LinkedListShozo implements ListShozo {
         return size;
     }
 
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public void clear() {
+        primo = null;
+        ultimo = null;
+        size = 0;
+    }
+
+    public boolean contains(Object obj) {
+        int count = 0;
+        Nodo esaminato = primo;
+        while (count < size) {
+            if (obj == esaminato.getValore() || obj.equals(esaminato.getValore())) {
+                return true;
+            }
+            esaminato = esaminato.successivo;
+            count++;
+        }
+        return false;
+    }
+
+
+    public boolean addAll(ListShozo list) {
+        int sizeOld = size;
+        for (int i = 0; i < list.size(); i++) {
+            add(list.get(i));
+        }
+
+        //size+=list.size(); //NON SERVE, LO AUMENTA IN AUTOMATICO QUANDO FA add(list.get(i))
+
+        return sizeOld != size;
+    }
+
+
+    public Object remove(int x) {
+
+        checkIndex(x);
+
+        Nodo elementEliminato = null;
+        int count = 0;
+        Nodo esaminato = primo;
+        while (count < size) {
+
+            if (count == x) {
+                elementEliminato = esaminato;
+                esaminato.precedente.setSuccessivo(esaminato.getSuccessivo());
+                esaminato.successivo.setPrecedente(esaminato.getPrecedente());
+            }
+            esaminato = esaminato.successivo;
+
+            count++;
+        }
+        primo = x == 0 ? elementEliminato.successivo : primo;
+        ultimo = x == size - 1 ? elementEliminato.precedente : ultimo;
+
+        size -= 1;
+        return elementEliminato;
+    }
+
+    public Object set(int x, Object obj) {
+        checkIndex(x);
+
+        Nodo nodo = getNodo(x);
+        Object valOld = nodo.getValore();
+        nodo.setValore(obj);
+        return valOld;
+
+        //OPPURE:
+
+//        int count = 0;
+//        Object valOld= new Object();
+//        Nodo esaminato = primo;
+//        while (count < size ) {
+//            if (count==x) {
+//
+//                valOld= esaminato.getValore();
+//
+//                esaminato.setValore(obj);
+//                break;
+//            }
+//
+//            esaminato = esaminato.successivo;
+//            count++;
+//        }
+//
+//      return valOld;
+    }
+
+    public int indexOf(Object obj) {
+        int indiceRecuperato = 0;
+        int count = 0;
+        Object valOld = new Object();
+        Nodo esaminato = primo;
+        while (count < size) {
+            if (esaminato.getValore() == obj) {
+                indiceRecuperato = count;
+                return indiceRecuperato;
+            }
+            esaminato = esaminato.successivo;
+            count++;
+        }
+        return -1;
+    }
+
+    public int lastIndexOf(Object obj) {
+        int indiceRecuperato = 0;
+        int count = size - 1;
+        Nodo esaminato = ultimo;
+        while (count >= 0) {
+            if (esaminato.getValore() == obj) {
+                indiceRecuperato = count;
+                return indiceRecuperato;
+            }
+            esaminato = esaminato.precedente;
+            count--;
+        }
+        return -1;
+    }
+
+    @Override
+    public void add(int x, Object obj) {
+
+        /**
+         * Qua niente checkIndex, perchè quello va in eccezione con >= size
+         * mentre qua un indice == size va bene
+         */
+        if (x < 0 || x > size) {
+            throw new IndexOutOfBoundsException(
+                    "Indice " + x + " non valido. Dimensione lista: " + size);
+        }
+
+        Nodo nodo = isEmpty() ? null : getNodo(x);
+        Nodo nodoNew = new Nodo(
+                nodo != null ? nodo.precedente : null, //eventuale precedente del nuovo nodo
+                obj,                                   //valore del nuovo nodo
+                nodo != null ? nodo.successivo : null);//eventuale successivo del nuovo nodo
+
+        if (nodo != null) {
+            Nodo nodoPrecedente = nodo.precedente;
+            nodoPrecedente.successivo = nodoNew;
+            nodo.precedente = nodoNew;
+        }
+
+        if (x == 0) {
+            primo = nodoNew;
+        } else if (x + 1 == size) {
+            ultimo = nodoNew;
+        }
+        size++;
+    }
+
+    //TODO questo non è stato implementato furbacchione XD
+    public ListShozo sublist(int inizio, int fine) {
+        ListShozo newLista = new LinkedListShozo();
+        return newLista;
+    }
+
+    private Nodo getNodo(int i) {
+        // se l'indice è minore o uguale della dimensione della lista-i
+        // ovvero, se ci conviene scorrere la lista dall'inizio
+        if (i <= size - i) {
+            Nodo esaminato = primo;
+            int count = 0;
+            while (count < i) {
+                esaminato = esaminato.successivo;
+                count++;
+            }
+            return esaminato;
+        }
+        // se invece l'indice è più vicino alla fine della lista
+        // ovvero, se ci conviene scorrere la lista dalla fine
+        else {
+            Nodo esaminato = ultimo;
+            int count = size - 1;
+            while (count > i) {
+                esaminato = esaminato.precedente;
+                count--;
+            }
+            return esaminato;
+        }
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof LinkedListShozo && obj != null) {
@@ -389,7 +367,6 @@ public class LinkedListShozo implements ListShozo {
     }
 
 
-
     @Getter
     @Setter
     private class Nodo {
@@ -403,7 +380,7 @@ public class LinkedListShozo implements ListShozo {
             this.valore = valore;
         }
 
-        private Nodo(Nodo precedente, Object valore, Nodo successivo ) {
+        private Nodo(Nodo precedente, Object valore, Nodo successivo) {
             this.precedente = precedente;
             this.successivo = successivo;
             this.valore = valore;
